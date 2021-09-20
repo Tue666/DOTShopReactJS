@@ -1,12 +1,12 @@
 import { styled } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
-import { Grid } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 
 import Title from '../Title';
 import ToggleShowAll from '../ToggleShowAll';
 
-const Categories = () => (
-    <>
+const Categories = ({ id }) => (
+    <Box id={id}>
         <Title>Categories</Title>
         <ToggleShowAll>
             <RootStyle
@@ -16,7 +16,7 @@ const Categories = () => (
                 {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].map(item => (
                     <Grid item lg={2} sm={3} xs={6} key={item}>
                         <Category>
-                            <Image src="https://doopage.com/assets/uploads/2019/05/dau-tu-hinh-anh-khi-ban-hang-tren-shopee.jpg" alt="" />
+                            <Image src="https://cf.shopee.vn/file/c3f3edfaa9f6dafc4825b77d8449999d_tn" alt="" />
                             <Link to='/categories'>
                                 <Name>Đồ chơi và thời trang Đồ chơi và thời trang Đồ chơi và thời trang</Name>
                             </Link>
@@ -25,7 +25,7 @@ const Categories = () => (
                 ))}
             </RootStyle>
         </ToggleShowAll>
-    </>
+    </Box>
 );
 
 const RootStyle = styled(Grid)(({ theme }) => ({

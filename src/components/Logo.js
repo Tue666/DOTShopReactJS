@@ -1,8 +1,10 @@
 import { NavLink } from 'react-router-dom';
 import { styled, Box } from '@mui/material';
 
+import { PATH_PAGE } from '../routes/path';
+
 const Logo = ({ children, sx }) => (
-    <NavLink to='/'>
+    <NavLink to={PATH_PAGE.home}>
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <Box sx={{ width: '109px', height: '109px', ...sx }}>
                 <Image src="https://www.graphicsprings.com/filestorage/stencils/bdc5649fb67a5ab2fc8b4a0dc0eac951.png?width=500&height=500" alt="" />

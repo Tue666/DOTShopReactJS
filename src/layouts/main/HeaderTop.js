@@ -1,8 +1,9 @@
 import { useState, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
-import { Box, Grid } from '@mui/material';
+import { Link, Stack } from '@mui/material';
 
+import { PATH_AUTH } from '../../routes/path';
 import MainPopover from '../../components/MainPopover';
 
 const HeaderTop = () => {
@@ -17,20 +18,24 @@ const HeaderTop = () => {
         setOpenedPopover(false);
     };
     return (
-        <Box>
-            <Grid
-                container
-                direction="row"
-                justifyContent="space-between"
-                alignItems="center"
+        <>
+            <Stack
+                direction='row'
+                justifyContent='space-between'
                 sx={{ display: { xs: 'none', sm: 'none', md: 'flex', lg: 'flex' } }}
             >
-                <Grid item>
-                    <Label><i className="fas fa-mobile-alt"></i> Download app</Label>
-                    <Label><i className="fab fa-facebook"></i> Connect</Label>
-                </Grid>
-                <Grid item>
-                    <Box style={{ display: 'inline-block' }}>
+                <Stack direction='row' justifyContent='space-between'>
+                    <>
+                        <Label>
+                            <i className="fas fa-mobile-alt"></i> Download app
+                        </Label>
+                    </>
+                    <Linking component={RouterLink} to={{ pathname: 'https://www.facebook.com/exe.shiro' }} target='_blank'>
+                        <i className="fab fa-facebook"></i> Connect
+                    </Linking>
+                </Stack>
+                <Stack direction='row' justifyContent='space-between'>
+                    <>
                         <Label
                             ref={anchorNotify}
                             onMouseEnter={popoverEnter}
@@ -51,22 +56,44 @@ const HeaderTop = () => {
                             <div style={{ backgroundColor: 'red', cursor: 'pointer' }}>Popover is showing</div>
                             <div>Popover is showing</div>
                         </MainPopover>
-                    </Box>
-
-                    <Label><i className="fas fa-question-circle"></i> Support</Label>
-                    <Link to='/auth'>
-                        <Label>Sign in/ Sign up</Label>
-                    </Link>
-                </Grid>
-            </Grid>
+                    </>
+                    <>
+                        <Label>
+                            <i className="fas fa-question-circle"></i> Support
+                        </Label>
+                    </>
+                    <Linking
+                        component={RouterLink}
+                        to={PATH_AUTH.login}
+                        sx={{ ml: '20px', borderRight: '1px solid #ccc' }}
+                    >
+                        Sign in
+                    </Linking>
+                    <Linking component={RouterLink} to={PATH_AUTH.register}>
+                        Sign up
+                    </Linking>
+                </Stack>
+            </Stack>
             <Label
                 sx={{ display: { xs: 'block', sm: 'block', md: 'none', lg: 'none' } }}
             >
                 <i className="fas fa-bars"></i>
             </Label>
-        </Box>
+        </>
     );
-}
+};
+
+const Linking = styled(Link)(({ theme }) => ({
+    color: theme.palette.text.primary,
+    textDecoration: 'none',
+    padding: '0px 10px',
+    fontWeight: 'bold',
+    transition: '0.3s',
+    fontSize: '15px',
+    '&:hover': {
+        color: '#f53d2d'
+    }
+}));
 
 const Label = styled('span')({
     padding: '0px 10px',
@@ -74,7 +101,6 @@ const Label = styled('span')({
     transition: '0.3s',
     fontSize: '15px',
     cursor: 'pointer',
-    position: 'relative',
     '&:hover': {
         color: '#f53d2d'
     }

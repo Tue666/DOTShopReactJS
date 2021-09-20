@@ -4,9 +4,9 @@ import { Stack, Typography } from '@mui/material';
 import Title from './Title';
 import ProductCard from './ProductCard';
 
-const ProductList = () => {
+const ProductList = ({ id }) => {
     return (
-        <Stack>
+        <Stack id={id}>
             <Title>Suggestions for you</Title>
             <Wrapper
             >

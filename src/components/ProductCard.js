@@ -23,7 +23,7 @@ const ProductCard = () => (
             <Image
                 component="img"
                 height="200"
-                image="http://gianhang0dong.youth.hcmue.edu.vn/Public/images/acernitro5.png"
+                image="https://cf.shopee.vn/file/01fdd4d7dcee6fabebc22b9a8f138bc2_tn"
                 alt="Paella dish"
             />
         </ImageWrapper>

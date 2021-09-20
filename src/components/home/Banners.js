@@ -4,8 +4,8 @@ import { Grid } from '@mui/material';
 import Slick from '../slick/Slick';
 import { settingBanners } from '../slick/SlickSettings';
 
-const Banners = () => (
-    <Grid container>
+const Banners = ({ id }) => (
+    <Grid container id={id}>
         <Grid item md={8} sm={6} xs={12}>
             <Slick settings={settingBanners}>
                 <Banner src="https://channel.mediacdn.vn/thumb_w/640/prupload/879/2018/11/img20181130185725670.jpg" alt="" />

@@ -1,6 +1,9 @@
 import { styled } from '@mui/material/styles';
 import { Container, Breadcrumbs, Link, Typography, Stack } from '@mui/material';
+import { ImportContacts, FileCopy, Article, Description as DescriptionIcon, Star, More } from '@mui/icons-material';
 
+import Teleport from '../../components/Teleport';
+import { combineLink } from '../../components/ScrollToTop';
 import { HEADER_HEIGHT } from '../../constant';
 import ProductSection from '../../components/ProductSection';
 import ProductList from '../../components/ProductList';
@@ -12,8 +15,18 @@ import {
     Review
 } from '../../components/product';
 
+const actions = [
+    { icon: combineLink('information', <ImportContacts />), name: 'Product information' },
+    { icon: combineLink('similar-section', <FileCopy />), name: 'Similar products' },
+    { icon: combineLink('more-information', <Article />), name: 'More information' },
+    { icon: combineLink('descriptions', <DescriptionIcon />), name: 'Product descriptions' },
+    { icon: combineLink('review', <Star />), name: 'Ratings - Reviews from customers' },
+    { icon: combineLink('product-list', <More />), name: 'Discover more for you' },
+];
+
 const Detail = () => (
     <Container>
+        <Teleport actions={actions} />
         <Breadcrumbs separator='›' sx={{ pb: '5px' }}>
             <Link underline='none' fontSize='15px' color='inherit' href='/'>
                 Trang chủ
@@ -28,27 +41,27 @@ const Detail = () => (
                 Điện Thoại Xiaomi Redmi Note 10 Pro (8GB/128GB) - Hàng Chính Hãng
             </Typography>
         </Breadcrumbs>
-        <Wrapper sx={{ p: 0, mt: 0 }}>
+        <Wrapper id='information' sx={{ p: 0, mt: 0 }}>
             <Stack direction={{ xs: 'column', sm: 'row', lg: 'row' }} justifyContent='space-between'>
                 <ImageZoom />
                 <Information />
             </Stack>
         </Wrapper>
         <Wrapper>
-            <ProductSection sx={{ m: 0 }} title="Similar products" />
+            <ProductSection sx={{ m: 0 }} id='similar-section' title="Similar products" />
         </Wrapper>
-        <Wrapper>
+        <Wrapper id='more-information'>
             <MoreInformation />
         </Wrapper>
-        <Wrapper>
+        <Wrapper id='descriptions'>
             <Description />
         </Wrapper>
-        <Wrapper>
+        <Wrapper id='review'>
             <Review />
         </Wrapper>
         <Stack>
             <DiscoverMore>Discover more for you</DiscoverMore>
-            <ProductList />
+            <ProductList id='product-list' />
         </Stack>
     </Container>
 )

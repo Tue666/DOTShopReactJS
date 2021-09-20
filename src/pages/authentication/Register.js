@@ -4,21 +4,21 @@ import { Link as RouterLink } from 'react-router-dom';
 import { PATH_AUTH } from '../../routes/path';
 import Logo from '../../components/Logo';
 import AuthSocial from '../../components/authentication/AuthSocial';
-import { LoginForm } from '../../components/authentication/login';
+import { RegisterForm } from '../../components/authentication/register';
 
-const Login = () => (
+const Register = () => (
     <Stack alignItems='center' sx={{ width: { xs: '100%', lg: '500px' } }} id='form-wrapper'>
         <Stack direction='row' justifyContent='end' alignItems='center' sx={{ width: '100%' }}>
-            Don’t have an account? &nbsp;
-            <Link color='#f76254' underline="none" variant="subtitle2" component={RouterLink} to={PATH_AUTH.register}>
-                Get started
+            Already have an account? &nbsp;
+            <Link color='#f76254' underline="none" variant="subtitle2" component={RouterLink} to={PATH_AUTH.login}>
+                Login
             </Link>
         </Stack>
-        <Logo>Sign in to CV Shop</Logo>
-        <Typography variant='body1'>Enter your details below.</Typography>
+        <Logo>Get started absolutely free.</Logo>
+        <Typography variant='body1'>Free forever. No credit card needed.</Typography>
         <AuthSocial />
-        <LoginForm />
+        <RegisterForm />
     </Stack>
 );
 
-export default Login;
+export default Register;

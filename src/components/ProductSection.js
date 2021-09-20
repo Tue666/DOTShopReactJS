@@ -7,8 +7,8 @@ import Slick from './slick/Slick';
 import { settingProductSection } from './slick/SlickSettings';
 import ProductCard from './ProductCard';
 
-const ProductSection = ({ title, sx }) => (
-    <RootStyle sx={{ ...sx }}>
+const ProductSection = ({ id, title, sx }) => (
+    <RootStyle id={id} sx={{ ...sx }}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <Title>{title}</Title>
             <Link to='/auth' underline="hover">
