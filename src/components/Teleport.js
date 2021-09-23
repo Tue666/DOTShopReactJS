@@ -1,6 +1,16 @@
+import PropTypes from 'prop-types';
 import { styled } from '@mui/material/styles';
 import { SpeedDial, SpeedDialAction } from '@mui/material';
 import { Api, Navigation } from '@mui/icons-material';
+
+const propTypes = {
+    action: PropTypes.arrayOf(
+        PropTypes.shape({
+            icon: PropTypes.node,
+            name: PropTypes.string
+        })
+    )
+};
 
 const Teleport = ({ actions }) => {
     return (
@@ -55,5 +65,7 @@ const StyledDial = styled(SpeedDial)({
         transform: 'rotate(360deg)'
     }
 });
+
+Teleport.propTypes = propTypes;
 
 export default Teleport;

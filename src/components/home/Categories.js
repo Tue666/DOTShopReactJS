@@ -1,9 +1,14 @@
-import { styled } from '@mui/material/styles';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { styled } from '@mui/material/styles';
 import { Box, Grid } from '@mui/material';
 
 import Title from '../Title';
 import ToggleShowAll from '../ToggleShowAll';
+
+const propTypes =  {
+    id: PropTypes.string
+};
 
 const Categories = ({ id }) => (
     <Box id={id}>
@@ -72,5 +77,7 @@ const Name = styled('span')({
         color: '#f53d2d'
     }
 });
+
+Categories.propTypes = propTypes;
 
 export default Categories;

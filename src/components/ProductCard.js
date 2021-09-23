@@ -1,6 +1,5 @@
-import { styled } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
-import { CARD_WIDTH } from '../constant';
+import { styled } from '@mui/material/styles';
 import {
     Grid,
     Card,
@@ -11,6 +10,8 @@ import {
     IconButton
 } from '@mui/material';
 import { Favorite, AddShoppingCart, FindInPage } from '@mui/icons-material';
+
+import { CARD_WIDTH } from '../constant';
 
 const CARD = {
     WIDTH: CARD_WIDTH,

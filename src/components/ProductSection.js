@@ -1,11 +1,18 @@
-import { styled } from '@mui/material/styles';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { styled } from '@mui/material/styles';
 import { Box } from '@mui/material';
 
 import Title from './Title';
 import Slick from './slick/Slick';
 import { settingProductSection } from './slick/SlickSettings';
 import ProductCard from './ProductCard';
+
+const propTypes = {
+    id: PropTypes.string,
+    title: PropTypes.string,
+    sx: PropTypes.object
+};
 
 const ProductSection = ({ id, title, sx }) => (
     <RootStyle id={id} sx={{ ...sx }}>
@@ -23,10 +30,12 @@ const ProductSection = ({ id, title, sx }) => (
             <ProductCard />
         </Slick>
     </RootStyle>
-)
+);
 
 const RootStyle = styled('div')({
     margin: '30px 0'
 });
+
+ProductSection.propTypes = propTypes;
 
 export default ProductSection;

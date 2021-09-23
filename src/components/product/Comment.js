@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { styled } from '@mui/material/styles';
 import { Stack, Typography, Button } from '@mui/material';
 import { ThumbUpOutlined, ChatOutlined } from '@mui/icons-material';
@@ -6,6 +7,10 @@ import Title from '../Title';
 import Stars from '../Stars';
 import AvatarBadge from '../AvatarBadge';
 import ResponseChild from './ResponseChild';
+
+const propTypes = {
+    status: PropTypes.string
+};
 
 const Comment = ({ status }) => (
     <RootStyle direction='row'>
@@ -71,5 +76,7 @@ const StyledButton = styled(Button)(({ theme }) => ({
         color: '#fff'
     }
 }));
+
+Comment.propTypes = propTypes;
 
 export default Comment;

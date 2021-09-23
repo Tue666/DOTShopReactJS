@@ -1,4 +1,9 @@
-import { styled } from "@mui/material/styles";
+import PropTypes from 'prop-types';
+import { styled } from '@mui/material/styles';
+
+const propTypes = {
+    children: PropTypes.node
+};
 
 // Children mush have className="toggle-wrapper"
 const ToggleShowAll = ({ children }) => (
@@ -9,7 +14,7 @@ const ToggleShowAll = ({ children }) => (
         </ToggleButton>
         {children}
     </RootStyle>
-)
+);
 
 const RootStyle = styled('div')({
     position: 'relative'
@@ -48,5 +53,7 @@ const Input = styled('input')({
         maxHeight: '1000px'
     }
 });
+
+ToggleShowAll.propTypes = propTypes;
 
 export default ToggleShowAll;

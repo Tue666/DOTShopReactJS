@@ -12,7 +12,6 @@ export const ScrollToTop = () => {
     return null;
 };
 
-
 // combile SpeedDial & react-scroll
 export const combineLink = (to, children) => (
     <Link to={to} duration={500} offset={parseInt(HEADER_HEIGHT.slice(0, -2)) * -1}>

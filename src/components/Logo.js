@@ -1,7 +1,13 @@
+import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import { styled, Box } from '@mui/material';
 
 import { PATH_PAGE } from '../routes/path';
+
+const propTypes = {
+    children: PropTypes.node,
+    sx: PropTypes.object
+};
 
 const Logo = ({ children, sx }) => (
     <NavLink to={PATH_PAGE.home}>
@@ -24,5 +30,7 @@ const Title = styled('span')({
     fontWeight: 'bold',
     fontSize: 20
 });
+
+Logo.propTypes = propTypes;
 
 export default Logo;

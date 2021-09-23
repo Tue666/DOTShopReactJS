@@ -2,7 +2,7 @@ import { Stack, Button, Divider, Typography } from '@mui/material';
 import { Google, Facebook, Twitter } from '@mui/icons-material';
 
 const AuthSocial = () => (
-    <Stack sx={{ width: '100%' }}>
+    <Stack>
         <Stack direction="row" spacing={2} sx={{ mt: 3 }}>
             <Button fullWidth size='large' color='error' variant='outlined'>
                 <Google color='error' />
@@ -23,5 +23,6 @@ const AuthSocial = () => (
             </Typography>
         </Divider>
     </Stack>
-)
+);
+
 export default AuthSocial;

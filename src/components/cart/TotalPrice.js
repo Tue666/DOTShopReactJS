@@ -45,7 +45,7 @@ const TotalPrice = () => (
             <OrderButton>Mua hàng (3)</OrderButton>
         </ContentInner>
     </RootStyle>
-)
+);
 
 const RootStyle = styled('div')(({ theme }) => ({
     width: `calc(100% - calc(${CART_WIDTH} + 15px))`,

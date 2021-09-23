@@ -1,8 +1,13 @@
+import PropTypes from 'prop-types';
 import { styled } from '@mui/material/styles';
 import { Grid } from '@mui/material';
 
 import Slick from '../slick/Slick';
 import { settingBanners } from '../slick/SlickSettings';
+
+const propTypes = {
+    id: PropTypes.string
+};
 
 const Banners = ({ id }) => (
     <Grid container id={id}>
@@ -42,5 +47,7 @@ const MiniBanner = styled('img')({
     height: '150px',
     padding: '1px'
 })
+
+Banners.propTypes = propTypes;
 
 export default Banners;

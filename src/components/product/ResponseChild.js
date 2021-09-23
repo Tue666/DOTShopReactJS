@@ -1,7 +1,12 @@
+import PropTypes from 'prop-types';
 import { styled } from '@mui/material/styles';
 import { Stack, Typography } from '@mui/material';
 
 import AvatarBadge from '../AvatarBadge';
+
+const propTypes = {
+    status: PropTypes.string
+};
 
 const ResponseChild = ({ status }) => (
     <Stack direction='row' sx={{ m: '5px' }}>
@@ -42,5 +47,7 @@ const Message = styled(Stack)(({ theme }) => ({
         margin: 0
     }
 }));
+
+ResponseChild.propTypes = propTypes;
 
 export default ResponseChild;

@@ -1,37 +1,45 @@
+import { lazy, Suspense } from 'react';
 import { Switch, Route } from 'react-router-dom';
 
 import MainLayout from '../layouts/main';
 import AuthLayout from '../layouts/authentication';
-import Home from '../pages/Home';
-import Cart from '../pages/Cart';
-import Categories from '../pages/Categories';
-import Login from '../pages/authentication/Login';
-import Register from '../pages/authentication/Register';
-import Detail from '../pages/product/Detail';
-import NotFound from '../pages/NotFound';
+import Loading from '../pages/Loading';
 
 const Router = () => (
-    <Switch>
-        <Route path='/auth/:slugAuth'>
-            <AuthLayout>
-                <Switch>
-                    <Route path='/auth/login' component={Login} ></Route>
-                    <Route path='/auth/register' component={Register} ></Route>
-                </Switch>
-            </AuthLayout>
-        </Route>
-        <Route>
-            <MainLayout>
-                <Switch>
-                    <Route path='/' exact component={Home} ></Route>
-                    <Route path='/cart' component={Cart} ></Route>
-                    <Route path='/categories' component={Categories} ></Route>
-                    <Route path='/detail/:slugName' component={Detail} ></Route>
-                    <Route path='*' component={NotFound}></Route>
-                </Switch>
-            </MainLayout>
-        </Route>
-    </Switch>
+    <Suspense fallback={<Loading />}>
+        <Switch>
+            <Route path='/auth/:slugAuth'>
+                <AuthLayout>
+                    <Switch>
+                        <Route path='/auth/login' component={Login} />
+                        <Route path='/auth/register' component={Register} />
+                    </Switch>
+                </AuthLayout>
+            </Route>
+            <Route>
+                <MainLayout>
+                    <Switch>
+                        <Route path='/' exact component={Home} />
+                        <Route path='/cart' component={Cart} />
+                        <Route path='/categories' component={Categories} />
+                        <Route path='/detail/:slugName' component={Detail} />
+                        <Route path='*' component={NotFound} />
+                    </Switch>
+                </MainLayout>
+            </Route>
+        </Switch>
+    </Suspense>
 );
 
 export default Router;
+
+// Main
+const Home = lazy(() => import('../pages/Home'));
+const Cart = lazy(() => import('../pages/Cart'));
+const Categories = lazy(() => import('../pages/Categories'));
+const Detail = lazy(() => import('../pages/product/Detail'));
+const NotFound = lazy(() => import('../pages/NotFound'));
+
+// Authentication
+const Login = lazy(() => import('../pages/authentication/Login'));
+const Register = lazy(() => import('../pages/authentication/Register'));

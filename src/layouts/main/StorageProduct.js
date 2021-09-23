@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { styled } from '@mui/material';
@@ -5,6 +6,10 @@ import { Box, Badge, IconButton } from '@mui/material';
 import { ShoppingCart, Favorite } from '@mui/icons-material';
 
 import MainPopover from '../../components/MainPopover';
+
+const propTypes = {
+    type: PropTypes.string
+};
 
 const StorageProduct = ({ type }) => {
     const anchorNotify = useRef(null);
@@ -61,11 +66,13 @@ const StorageProduct = ({ type }) => {
             </MainPopover>
         </Box>
     );
-}
+};
 
 const RootStyle = styled(Box)({
     margin: '0 5px',
     transition: '0.3s'
-})
+});
+
+StorageProduct.propTypes = propTypes;
 
 export default StorageProduct

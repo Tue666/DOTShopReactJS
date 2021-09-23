@@ -64,7 +64,7 @@ const Review = () => (
             <Comment status="online" />
         </Stack>
     </>
-)
+);
 
 const Range = styled('div')(({ votes, total }) => ({
     width: '150px',

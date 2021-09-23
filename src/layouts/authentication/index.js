@@ -1,7 +1,12 @@
+import PropTypes from 'prop-types';
 import { Link } from 'react-scroll';
 import { styled } from '@mui/material/styles';
-import { Stack, Button } from '@mui/material';
+import { Box, Stack, Button } from '@mui/material';
 import { ArrowDownward } from '@mui/icons-material';
+
+const propTypes = {
+    children: PropTypes.node
+};
 
 const AuthLayout = ({ children }) => (
     <Stack
@@ -25,7 +30,9 @@ const AuthLayout = ({ children }) => (
                 <Start size='large' variant='contained' color='error' endIcon={<ArrowDownward />}>Let's start</Start>
             </Link>
         </ImageWrapper>
-        {children}
+        <Box sx={{ width: { xs: '100%', lg: '500px' } }} id='form-wrapper'>
+            {children}
+        </Box>
     </Stack>
 );
 
@@ -116,5 +123,7 @@ const Start = styled(Button)(({ theme }) => ({
         display: 'none'
     }
 }));
+
+AuthLayout.propTypes = propTypes;
 
 export default AuthLayout;

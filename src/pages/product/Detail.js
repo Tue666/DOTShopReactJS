@@ -64,7 +64,7 @@ const Detail = () => (
             <ProductList id='product-list' />
         </Stack>
     </Container>
-)
+);
 
 const Wrapper = styled('div')(({ theme }) => ({
     margin: '20px 0',

@@ -1,7 +1,13 @@
+import PropTypes from 'prop-types';
 import { useMemo } from 'react';
 import { ThemeProvider, createTheme, CssBaseline } from '@mui/material';
+
 import useSettings from '../hooks/useSettings';
 import GlobalStyles from './globalStyles';
+
+const propTypes = {
+  children: PropTypes.node
+};
 
 const ThemeConfig = ({ children }) => {
   const { themeMode } = useSettings();
@@ -27,6 +33,8 @@ const ThemeConfig = ({ children }) => {
       {children}
     </ThemeProvider>
   );
-}
+};
+
+ThemeConfig.propTypes = propTypes;
 
 export default ThemeConfig;

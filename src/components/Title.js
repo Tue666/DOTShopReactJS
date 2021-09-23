@@ -1,4 +1,10 @@
+import PropTypes from 'prop-types';
 import { styled } from '@mui/material/styles';
+
+const propTypes = {
+    children: PropTypes.node,
+    sx: PropTypes.object
+};
 
 const Title = ({ children, sx }) => (
     <RootStyle sx={{ ...sx }}>
@@ -11,5 +17,7 @@ const RootStyle = styled('span')({
     fontWeight: 'bold',
     padding: '15px 20px'
 });
+
+Title.propTypes = propTypes;
 
 export default Title;

@@ -1,5 +1,10 @@
+import PropTypes from 'prop-types';
 import { styled } from '@mui/material/styles';
 import { Box } from '@mui/material';
+
+const propTypes = {
+    sx: PropTypes.object
+}
 
 const SearchBar = ({ sx }) => (
     <Box sx={{ width: '35%', height: 40, position: 'relative', ...sx }}>
@@ -38,5 +43,7 @@ const SearchButton = styled('div')({
         backgroundColor: '#f95b4c'
     }
 });
+
+SearchBar.propTypes = propTypes;
 
 export default SearchBar;

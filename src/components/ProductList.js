@@ -1,8 +1,13 @@
+import PropTypes from 'prop-types';
 import { styled } from '@mui/material/styles';
 import { Stack, Typography } from '@mui/material';
 
 import Title from './Title';
 import ProductCard from './ProductCard';
+
+const propTypes = {
+    id: PropTypes.string
+};
 
 const ProductList = ({ id }) => {
     return (
@@ -42,5 +47,7 @@ const LoadMoreButton = styled('div')(({ theme }) => ({
     justifyContent: 'center',
     alignItems: 'center',
 }));
+
+ProductList.propTypes = propTypes;
 
 export default ProductList;

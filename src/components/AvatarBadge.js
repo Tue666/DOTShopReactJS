@@ -1,5 +1,13 @@
+import PropTypes from 'prop-types';
 import { styled } from '@mui/material/styles';
 import { Avatar, Badge } from '@mui/material';
+
+const propTypes = {
+    status: PropTypes.string,
+    width: PropTypes.string,
+    height: PropTypes.string,
+    sx: PropTypes.object
+};
 
 const AvatarBadge = ({ status, width, height, sx }) => (
     <StatusBadge
@@ -45,5 +53,7 @@ const StatusBadge = styled(Badge)(({ theme, status }) => ({
         },
     }
 }));
+
+AvatarBadge.propTypes = propTypes;
 
 export default AvatarBadge;
