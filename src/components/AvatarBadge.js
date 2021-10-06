@@ -4,8 +4,8 @@ import { Avatar, Badge } from '@mui/material';
 
 const propTypes = {
     status: PropTypes.string,
-    width: PropTypes.string,
-    height: PropTypes.string,
+    width: PropTypes.number,
+    height: PropTypes.number,
     sx: PropTypes.object
 };
 

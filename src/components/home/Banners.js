@@ -46,7 +46,7 @@ const MiniBanner = styled('img')({
     width: '100%',
     height: '150px',
     padding: '1px'
-})
+});
 
 Banners.propTypes = propTypes;
 

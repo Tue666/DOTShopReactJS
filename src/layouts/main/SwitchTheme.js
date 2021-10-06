@@ -12,6 +12,7 @@ const SwitchTheme = () => {
                     size="small"
                     checked={themeMode === 'dark'}
                     onChange={onChangeTheme}
+                    color='error'
                 />
             }
             label={themeMode === 'dark' ? <i className="fas fa-cloud-moon" style={{ color: '#f53d2d' }}></i> : <i className="fas fa-sun" style={{ color: 'orange' }}></i>}

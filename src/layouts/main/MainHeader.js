@@ -28,7 +28,7 @@ const HeaderContainer = styled('div')(({ theme }) => ({
     padding: HEADER.PADDING,
     backgroundColor: theme.palette.background.paper,
     color: theme.palette.text.primary,
-    boxShadow: `2px 2px 3px ${theme.palette.divider}`,
+    // boxShadow: `2px 2px 3px ${theme.palette.divider}`,
     zIndex: 999,
     [theme.breakpoints.down('sm')]: {
         padding: '5px'

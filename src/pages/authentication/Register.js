@@ -17,7 +17,7 @@ const Register = () => (
         <Logo>Get started absolutely free.</Logo>
         <Typography variant='body1'>Free forever. No credit card needed.</Typography>
         <AuthSocial />
-        <RegisterForm />
+        <RegisterForm PATH_AUTH={PATH_AUTH} />
     </>
 );
 

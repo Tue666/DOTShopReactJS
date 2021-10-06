@@ -5,8 +5,17 @@ const GlobalStyles = withStyles((theme) => ({
         'html': {
             scrollBehavior: 'smooth'
         },
-        'html::-webkit-scrollbar': {
-            display: 'none'
+        '::-webkit-scrollbar': {
+            width: '11px',
+            height: '11px'
+        },
+        '::-webkit-scrollbar-thumb': {
+            background: 'gray',
+            borderRadius: '10px',
+            border: `2px solid ${theme.palette.background.default}`
+        },
+        '::-webkit-scrollbar-thumb:hover': {
+            backgroundColor: '#bbb'
         },
         '*': {
             margin: 0,
@@ -18,6 +27,10 @@ const GlobalStyles = withStyles((theme) => ({
         a: {
             textDecoration: 'none',
             color: theme.palette.text.primary
+        },
+        '.MuiBadge-badge': {
+            backgroundColor: '#f76254',
+            color: '#fff'
         },
         '.wide-container': {
             padding: '0 5px !important'

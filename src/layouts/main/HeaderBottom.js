@@ -33,7 +33,7 @@ const HeaderBottom = () => (
                 </BoxContainer>
             </Grid>
             <Grid item xs={12}>
-                <SearchBar sx={{ width: '65%', marginX: 'auto' }} />
+                <SearchBar sx={{ width: '85%', marginX: 'auto' }} />
             </Grid>
         </Grid>
     </>

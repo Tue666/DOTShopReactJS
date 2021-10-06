@@ -19,6 +19,13 @@ const BannerArrow = styled('button')(({ side }) => ({
         color: 'rgba(255,255,255,0.8)'
     }
 }));
+const CustomeBannerArrow = ({ currentSlide, slideCount, side, children, ...props }) => {
+    return (
+        <BannerArrow side={side} {...props}>
+            {children}
+        </BannerArrow>
+    );
+};
 
 const SectionArrow = styled('button')(({ side }) => ({
     width: '40px',
@@ -41,6 +48,13 @@ const SectionArrow = styled('button')(({ side }) => ({
         boxShadow: '0px 2px 5px #f95b4c'
     }
 }));
+const CustomeSectionArrow = ({ currentSlide, slideCount, side, children, ...props }) => {
+    return (
+        <SectionArrow side={side} {...props}>
+            {children}
+        </SectionArrow>
+    );
+};
 
 const Dots = styled('ul')({
     display: 'flex',
@@ -67,8 +81,8 @@ export const settingBanners = {
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 2500,
-    prevArrow: <BannerArrow side='back'><ArrowBackIosOutlined /></BannerArrow>,
-    nextArrow: <BannerArrow side='forward'><ArrowForwardIosOutlined /></BannerArrow>,
+    prevArrow: <CustomeBannerArrow side='back'><ArrowBackIosOutlined /></CustomeBannerArrow>,
+    nextArrow: <CustomeBannerArrow side='forward'><ArrowForwardIosOutlined /></CustomeBannerArrow>,
     appendDots: dots => (
         <Dots>
             {dots}
@@ -88,8 +102,8 @@ export const settingProductSection = {
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 2500,
-    prevArrow: <SectionArrow side='back'><i className="fas fa-chevron-left"></i></SectionArrow>,
-    nextArrow: <SectionArrow side='forward'><i className="fas fa-chevron-right"></i></SectionArrow>,
+    prevArrow: <CustomeSectionArrow side='back'><i className="fas fa-chevron-left"></i></CustomeSectionArrow>,
+    nextArrow: <CustomeSectionArrow side='forward'><i className="fas fa-chevron-right"></i></CustomeSectionArrow>,
     responsive: [
         {
             breakpoint: 1080,

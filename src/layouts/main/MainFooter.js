@@ -1,7 +1,15 @@
+import { styled } from '@mui/material/styles';
+
 const MainFooter = () => (
-    <div>
-        <h1>MainFooter</h1>
-    </div>
-)
+    <RootStyle>
+
+    </RootStyle>
+);
+
+const RootStyle = styled('div')(({ theme }) => ({
+    height: '400px',
+    marginTop: '50px',
+    backgroundColor: theme.palette.background.paper
+}));
 
 export default MainFooter;

@@ -30,7 +30,6 @@ const StorageProduct = ({ type }) => {
                 onMouseLeave={popoverLeave}
             >
                 <Badge
-                    color='error'
                     badgeContent={100}
                     max={99}
                     anchorOrigin={{
@@ -40,12 +39,12 @@ const StorageProduct = ({ type }) => {
                 >
                     {type === 'cart' ? (
                         <Link to='/cart'>
-                            <IconButton color='error'>
+                            <IconButton sx={{ color: '#f76254' }}>
                                 <ShoppingCart />
                             </IconButton>
                         </Link>
                     ) : (
-                        <IconButton color='error'>
+                        <IconButton sx={{ color: '#f76254' }}>
                             <Favorite />
                         </IconButton>
                     )}

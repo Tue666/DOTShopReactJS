@@ -7,7 +7,7 @@ const propTypes = {
 }
 
 const SearchBar = ({ sx }) => (
-    <Box sx={{ width: '35%', height: 40, position: 'relative', ...sx }}>
+    <Box sx={{ width: '53%', height: 40, position: 'relative', ...sx }}>
         <SearchField placeholder="Enter what are you looking for here ... <3" />
         <SearchButton><i className="fas fa-search"></i></SearchButton>
     </Box>

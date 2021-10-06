@@ -19,7 +19,7 @@ const CARD = {
 }
 
 const ProductCard = () => (
-    <RootStyle className="product-card">
+    <RootStyle>
         <ImageWrapper>
             <Image
                 component="img"
@@ -100,9 +100,10 @@ const RootStyle = styled(Card)(({ theme }) => ({
     borderRadius: '5px',
     margin: '3px',
     padding: '3px',
-    boxShadow: '2px 2px 0px rgb(239 239 239)',
+    backgroundImage: 'none',
+    boxShadow: '3px 2px 5px rgba(180,180,180,0.1)',
     '&:hover': {
-        boxShadow: '2px 2px 0px rgb(223 220 220)',
+        boxShadow: '3px 3px 4px rgba(180,180,180,0.2)',
     },
     '& .MuiCardContent-root': {
         padding: '2px 8px'
