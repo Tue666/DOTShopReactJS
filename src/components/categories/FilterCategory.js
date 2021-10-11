@@ -1,17 +1,24 @@
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 import { Stack, TextField, Button } from '@mui/material';
 import { ReadMore } from '@mui/icons-material';
 
 import Stars from '../Stars';
 
-const FilterCategory = () => (
+const propTypes = {
+    children: PropTypes.array
+};
+
+const FilterCategory = ({ children }) => (
     <RootStyle>
         <Wrapper>
             <Title>Danh mục sản phẩm</Title>
-            <Text>Linh Kiện Máy Tính - Phụ Kiện Máy Tính</Text>
-            <Text>Thiết Bị Văn Phòng - Thiết Bị Ngoại Vi</Text>
-            <Text>Thiết Bị Mạng</Text>
-            <Text>Thiết Bị Lưu Trữ</Text>
+            {children.map(category => (
+                <Link key={category._id} to={`/${category.slug}/cid${category._id}`}>
+                    <Text>{category.title}</Text>
+                </Link>
+            ))}
         </Wrapper>
         <Wrapper>
             <Title>Đánh giá</Title>
@@ -70,5 +77,7 @@ const Text = styled('span')({
         color: '#f53d2d'
     }
 });
+
+FilterCategory.propTypes = propTypes;
 
 export default FilterCategory;

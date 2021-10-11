@@ -8,11 +8,11 @@ import Loading from '../pages/Loading';
 const Router = () => (
     <Suspense fallback={<Loading />}>
         <Switch>
-            <Route path='/auth/:slugAuth'>
+            <Route path='/auth/:slugAuth' exact>
                 <AuthLayout>
                     <Switch>
-                        <Route path='/auth/login' component={Login} />
-                        <Route path='/auth/register' component={Register} />
+                        <Route path='/auth/login' exact component={Login} />
+                        <Route path='/auth/register' exact component={Register} />
                     </Switch>
                 </AuthLayout>
             </Route>
@@ -20,9 +20,10 @@ const Router = () => (
                 <MainLayout>
                     <Switch>
                         <Route path='/' exact component={Home} />
-                        <Route path='/cart' component={Cart} />
-                        <Route path='/categories' component={Categories} />
-                        <Route path='/detail/:slugName' component={Detail} />
+                        <Route path='/cart' exact component={Cart} />
+                        {/* provide a random key (date now) to trigger reload if already in that current url */}
+                        <Route path='/:slugProduct/pid:slugId' exact render={props => <Detail {...props} key={Date.now()}/>} />
+                        <Route path='/:slugCategory/cid:slugId' exact render={props => <Categories {...props} key={Date.now()}/>} />
                         <Route path='*' component={NotFound} />
                     </Switch>
                 </MainLayout>

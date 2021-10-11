@@ -1,40 +1,108 @@
+import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
-import { Stack, Typography } from '@mui/material';
+import { Stack, Typography, Pagination } from '@mui/material';
+import { StarRateTwoTone } from '@mui/icons-material';
 
+import { HEADER_HEIGHT } from '../../constant';
 import Slick from '../slick/Slick';
 import { settingBanners } from '../slick/SlickSettings';
 import ProductCard from '../ProductCard';
 
-const ResultContent = () => (
-    <RootStyle>
-        <Stack direction='row' alignItems='center' spacing={1} sx={{ m: '15px' }}>
-            <Typography variant='h6'>Thiết bị điện tử, phụ kiện: </Typography>
-            <Typography variant='subtitle1' fontSize='17px'>69 kết quả</Typography>
-        </Stack>
-        <Stack sx={{ mb: '20px' }}>
-            <Slick settings={settingBanners}>
-                <Image src="https://salt.tikicdn.com/cache/w1080/ts/banner/b3/9c/a2/5b14186136fd9e16f1e538eed5fd170a.jpg.webp" alt="" />
-                <Image src="https://salt.tikicdn.com/cache/w1080/ts/banner/8b/4d/81/90f4e63da65d03927e827de10ffebc10.png.webp" alt="" />
-                <Image src="https://salt.tikicdn.com/cache/w1080/ts/banner/1c/2c/44/df14fbf0850902d33914e7798a16c547.jpg.webp" alt="" />
-                <Image src="https://salt.tikicdn.com/cache/w1080/ts/banner/86/49/a6/8c96a2e06eed73166df55b3d39dab6d8.jpg.webp" alt="" />
-            </Slick>
-        </Stack>
-        <Stack>
-            <Stack direction='row' alignItems='center'>
-                <FilterText className='active'>Phổ biến</FilterText>
-                <FilterText>Bán chạy</FilterText>
-                <FilterText>Hàng mới</FilterText>
-                <FilterText>Giá rẻ</FilterText>
-                <FilterText>Giá cao</FilterText>
+const propTypes = {
+    response: PropTypes.object
+};
+
+const FILTER_NAVS = [
+    {
+        label: 'Phổ biến',
+        sort: 'default'
+    },
+    {
+        label: 'Bán chạy',
+        sort: 'top_seller'
+    },
+    {
+        label: 'Hàng mới',
+        sort: 'newest'
+    },
+    {
+        label: 'Giá rẻ',
+        sort: 'price%asc'
+    },
+    {
+        label: 'Giá cao',
+        sort: 'price%desc'
+    }
+];
+
+const ResultContent = ({ response }) => {
+    const { category, result } = response;
+    const { products, totalProduct, pagination, filter } = result;
+    const history = useHistory();
+    const handleFilter = sort => {
+        history.replace(`?sort=${sort}&page=1`);
+        window.scrollTo(0, 0);
+    };
+    const handlePagination = (event, value) => {
+        history.replace(`?sort=${filter.sort}&page=${value}`);
+        window.scrollTo(0, 0);
+    };
+    return (
+        <RootStyle>
+            <Stack direction='row' alignItems='center' spacing={1} sx={{ m: '15px' }}>
+                <Typography variant='h6'>{category.title}: </Typography>
+                <Typography variant='subtitle1' fontSize='17px'>{totalProduct}</Typography>
             </Stack>
-            <Wrapper>
-                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].map(item => (
-                    <ProductCard key={item} />
-                ))}
-            </Wrapper>
-        </Stack>
-    </RootStyle>
-);
+            <Stack sx={{ mb: '20px' }}>
+                <Slick settings={settingBanners}>
+                    {category.banners && category.banners.map((image, index) => (
+                        <Image key={index} src={image} alt="" />
+                    ))}
+                </Slick>
+            </Stack>
+            {totalProduct > 0 && (
+                <>
+                    <Stack sx={{ position: 'relative' }}>
+                        <FilterWrapper direction='row' alignItems='center'>
+                            {FILTER_NAVS.map(nav => (
+                                <FilterText
+                                    key={nav.label}
+                                    className={nav.sort === filter.sort ? 'active' : ''}
+                                    onClick={() => handleFilter(nav.sort)}
+                                >
+                                    {nav.label}
+                                </FilterText>
+                            ))}
+                        </FilterWrapper>
+                        <Wrapper>
+                            {products && products.map(product => (
+                                <ProductCard key={product._id} product={product} />
+                            ))}
+
+                        </Wrapper>
+                    </Stack>
+                    <PaginationWrapper>
+                        <Pagination
+                            color='primary'
+                            page={parseInt(pagination.page)}
+                            count={pagination.totalPage}
+                            hidePrevButton={pagination.page <= 1}
+                            hideNextButton={pagination.page >= pagination.totalPage}
+                            onChange={handlePagination}
+                        />
+                    </PaginationWrapper>
+                </>
+            )}
+            {totalProduct <= 0 && (
+                <Stack alignItems='center' spacing={1} sx={{ width: '100%', py: 3 }}>
+                    <StarRateTwoTone color='warning' sx={{ fontSize: 'xxx-large' }} />
+                    <Typography variant='subtitle1'>No product found :D. Try something new.</Typography>
+                </Stack>
+            )}
+        </RootStyle>
+    );
+};
 
 const RootStyle = styled(Stack)(({ theme }) => ({
     width: 'calc(100% - 262px)',
@@ -44,16 +112,24 @@ const RootStyle = styled(Stack)(({ theme }) => ({
     }
 }));
 
-const Wrapper = styled('div')(({ theme }) => ({
+const Wrapper = styled('div')({
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'center'
-}));
+});
 
 const Image = styled('img')({
     width: '100%',
     height: '100%'
 });
+
+const FilterWrapper = styled(Stack)(({ theme }) => ({
+    borderTop: `2px solid ${theme.palette.background.default}`,
+    position: 'sticky',
+    top: HEADER_HEIGHT,
+    zIndex: '99',
+    backgroundColor: theme.palette.background.paper
+}));
 
 const FilterText = styled('span')({
     textTransform: 'capitalize',
@@ -66,5 +142,16 @@ const FilterText = styled('span')({
         borderBottom: '4px solid #f53d2d'
     }
 });
+
+const PaginationWrapper = styled('div')(({ theme }) => ({
+    marginTop: '15px',
+    height: '50px',
+    backgroundColor: theme.palette.background.default,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
+}));
+
+ResultContent.propTypes = propTypes;
 
 export default ResultContent;

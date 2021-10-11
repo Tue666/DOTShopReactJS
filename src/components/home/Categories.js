@@ -1,37 +1,61 @@
 import PropTypes from 'prop-types';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
-import { Box, Grid } from '@mui/material';
+import { Box, Grid, Skeleton } from '@mui/material';
 
 import Title from '../Title';
 import ToggleShowAll from '../ToggleShowAll';
+import categoryApi from '../../apis/categoryApi';
 
-const propTypes =  {
+const propTypes = {
     id: PropTypes.string
 };
 
-const Categories = ({ id }) => (
-    <Box id={id}>
-        <Title>Categories</Title>
-        <ToggleShowAll>
-            <RootStyle
-                container
-                justifyContent="center"
-            >
-                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].map(item => (
-                    <Grid item lg={2} sm={3} xs={6} key={item}>
-                        <Category>
-                            <Image src="https://cf.shopee.vn/file/c3f3edfaa9f6dafc4825b77d8449999d_tn" alt="" />
-                            <Link to='/categories'>
-                                <Name>Đồ chơi và thời trang Đồ chơi và thời trang Đồ chơi và thời trang</Name>
+const Categories = ({ id }) => {
+    const [categories, setCategories] = useState(null);
+    useEffect(() => {
+        const getListCategory = async () => {
+            try {
+                const listCategory = await categoryApi.listCategory();
+                setCategories(listCategory);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        getListCategory();
+    }, [])
+    return (
+        <Box id={id}>
+            <Title>Categories</Title>
+            <ToggleShowAll>
+                <RootStyle
+                    container
+                    justifyContent="center"
+                >
+                    {categories && categories.map(category => (
+                        <Grid item lg={2} sm={3} xs={6} key={category._id}>
+                            <Link to={`/${category.slug}/cid${category._id}`}>
+                                <Category>
+                                    <Image src={category.image} alt={category.title} key={category._id} />
+                                    <Name title={category.title}>{category.title}</Name>
+                                </Category>
                             </Link>
-                        </Category>
-                    </Grid>
-                ))}
-            </RootStyle>
-        </ToggleShowAll>
-    </Box>
-);
+                        </Grid>
+                    ))}
+                    {!categories && [...Array(12)].map((_, index) => (
+                        <Grid item lg={2} sm={3} xs={6} key={index}>
+                            <Category>
+                                <Skeleton variant="circular" width={49} height={49} />
+                                <Skeleton variant="rectangular" width={80} height={45} />
+                            </Category>
+                        </Grid>
+                    ))}
+                </RootStyle>
+            </ToggleShowAll>
+        </Box>
+    );
+}
 
 const RootStyle = styled(Grid)(({ theme }) => ({
     padding: '0 50px',
@@ -62,12 +86,14 @@ const Category = styled('div')(({ theme }) => ({
 const Image = styled('img')({
     width: '50px',
     height: '50px',
-    borderRadius: '50%',
-    marginRight: '10px'
+    borderRadius: '35%',
+    marginRight: '15px',
 });
 
 const Name = styled('span')({
-    fontWeight: 'bold',
+    width: '100%',
+    fontSize: '14px',
+    fontWeight: '400',
     display: '-webkit-box',
     WebkitLineClamp: 2,
     WebkitBoxOrient: 'vertical',

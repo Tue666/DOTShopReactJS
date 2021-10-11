@@ -1,17 +1,31 @@
+import PropTypes from 'prop-types';
+import { useState } from 'react';
 import { styled } from '@mui/material/styles';
 import { Stack } from '@mui/material';
 
-const ImageZoom = () => (
-    <RootStyle>
-        <MainImage src="https://cf.shopee.vn/file/01fdd4d7dcee6fabebc22b9a8f138bc2_tn" alt="" />
-        <Stack direction='row' spacing={1} sx={{ mt: '3px' }}>
-            <MoreImage className="active" src="https://cf.shopee.vn/file/01fdd4d7dcee6fabebc22b9a8f138bc2_tn" alt="" />
-            <MoreImage src="https://cf.shopee.vn/file/01fdd4d7dcee6fabebc22b9a8f138bc2_tn" alt="" />
-            <MoreImage src="https://cf.shopee.vn/file/01fdd4d7dcee6fabebc22b9a8f138bc2_tn" alt="" />
-            <MoreImage src="https://cf.shopee.vn/file/01fdd4d7dcee6fabebc22b9a8f138bc2_tn" alt="" />
-        </Stack>
-    </RootStyle>
-);
+const propTypes = {
+    image: PropTypes.array
+};
+
+const ImageZoom = ({ images }) => {
+    const [currentImage, setCurrentImage] = useState(0);
+    return (
+        <RootStyle>
+            <MainImage src={images[currentImage]} alt="" />
+            <Stack direction='row' spacing={1} sx={{ mt: '3px' }}>
+                {images && images.map((image, index) => (
+                    <MoreImage
+                        key={index}
+                        className={index === currentImage ? 'active' : ''}
+                        src={image}
+                        alt=""
+                        onClick={() => setCurrentImage(index)}
+                    />
+                ))}
+            </Stack>
+        </RootStyle>
+    );
+};
 
 const RootStyle = styled('div')(({ theme }) => ({
     width: '450px',
@@ -26,7 +40,6 @@ const RootStyle = styled('div')(({ theme }) => ({
 const MainImage = styled('img')(({ theme }) => ({
     width: '100%',
     height: '370px',
-    backgroundSize: '100% auto',
     borderBottom: `3px solid ${theme.palette.background.default}`
 }));
 
@@ -44,5 +57,7 @@ const MoreImage = styled('img')({
         borderRadius: '5px'
     }
 });
+
+ImageZoom.propTypes = propTypes;
 
 export default ImageZoom;

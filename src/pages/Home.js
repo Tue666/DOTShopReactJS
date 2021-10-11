@@ -9,7 +9,7 @@ import ProductList from '../components/ProductList';
 
 const actions = [
     { icon: combineLink('banners', <ViewCarousel />), name: 'Banners' },
-    { icon: combineLink('hot-section', <LocalFireDepartment />), name: 'Hot selling products' },
+    { icon: combineLink('sold-section', <LocalFireDepartment />), name: 'Hot selling products' },
     { icon: combineLink('categories', <Category />), name: 'Categories' },
     { icon: combineLink('search-section', <ScreenSearchDesktop />), name: 'Most searching products' },
     { icon: combineLink('view-section', <Preview />), name: 'Top view products' },
@@ -20,10 +20,10 @@ const Home = () => (
     <Container>
         <Teleport actions={actions} />
         <Banners id='banners' />
-        <ProductSection id='hot-section' title="Hot selling products" />
+        <ProductSection id='sold-section' type='sold' title="Hot selling products" />
         <Categories id='categories' />
-        <ProductSection id='search-section' title="Most searching products" />
-        <ProductSection id='view-section' title="Top view products" />
+        <ProductSection id='search-section' type='searched' title="Most searching products" />
+        <ProductSection id='view-section' type='viewed' title="Top view products" />
         <ProductList id='product-list' />
     </Container>
 );

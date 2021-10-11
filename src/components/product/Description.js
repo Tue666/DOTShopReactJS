@@ -1,74 +1,18 @@
+import PropTypes from 'prop-types';
 import { styled } from '@mui/material/styles';
 
 import Title from '../Title';
 import ToggleShowAll from '../ToggleShowAll';
 
-const Description = () => (
+const propTypes = {
+    description: PropTypes.string
+};
+
+const Description = ({ description }) => (
     <>
         <Title>Product descriptions</Title>
         <ToggleShowAll>
-            <Content>
-                Bánh mì có thể chiên lửa vừa trong vòng 2-3p với chảo dầu thật nóng (nên dùng giấy thấm dầu sau khi chiên)
-                ,hấp 7-10 phút hoặc Chiên lại bằng nồi chiên không dầu: do bánh vào nồi chiên không dầu, chỉnh thời gian 30s
-                và 180 độ C.
-                Bánh mì có thể chiên lửa vừa trong vòng 2-3p với chảo dầu thật nóng (nên dùng giấy thấm dầu sau khi chiên)
-                ,hấp 7-10 phút hoặc Chiên lại bằng nồi chiên không dầu: do bánh vào nồi chiên không dầu, chỉnh thời gian 30s
-                và 180 độ C.
-                Bánh mì có thể chiên lửa vừa trong vòng 2-3p với chảo dầu thật nóng (nên dùng giấy thấm dầu sau khi chiên)
-                ,hấp 7-10 phút hoặc Chiên lại bằng nồi chiên không dầu: do bánh vào nồi chiên không dầu, chỉnh thời gian 30s
-                và 180 độ C.
-                Bánh mì có thể chiên lửa vừa trong vòng 2-3p với chảo dầu thật nóng (nên dùng giấy thấm dầu sau khi chiên)
-                ,hấp 7-10 phút hoặc Chiên lại bằng nồi chiên không dầu: do bánh vào nồi chiên không dầu, chỉnh thời gian 30s
-                và 180 độ C.
-                Bánh mì có thể chiên lửa vừa trong vòng 2-3p với chảo dầu thật nóng (nên dùng giấy thấm dầu sau khi chiên)
-                ,hấp 7-10 phút hoặc Chiên lại bằng nồi chiên không dầu: do bánh vào nồi chiên không dầu, chỉnh thời gian 30s
-                và 180 độ C.
-                Bánh mì có thể chiên lửa vừa trong vòng 2-3p với chảo dầu thật nóng (nên dùng giấy thấm dầu sau khi chiên)
-                ,hấp 7-10 phút hoặc Chiên lại bằng nồi chiên không dầu: do bánh vào nồi chiên không dầu, chỉnh thời gian 30s
-                và 180 độ C.
-                Bánh mì có thể chiên lửa vừa trong vòng 2-3p với chảo dầu thật nóng (nên dùng giấy thấm dầu sau khi chiên)
-                ,hấp 7-10 phút hoặc Chiên lại bằng nồi chiên không dầu: do bánh vào nồi chiên không dầu, chỉnh thời gian 30s
-                và 180 độ C.
-                Bánh mì có thể chiên lửa vừa trong vòng 2-3p với chảo dầu thật nóng (nên dùng giấy thấm dầu sau khi chiên)
-                ,hấp 7-10 phút hoặc Chiên lại bằng nồi chiên không dầu: do bánh vào nồi chiên không dầu, chỉnh thời gian 30s
-                và 180 độ C.
-                Bánh mì có thể chiên lửa vừa trong vòng 2-3p với chảo dầu thật nóng (nên dùng giấy thấm dầu sau khi chiên)
-                ,hấp 7-10 phút hoặc Chiên lại bằng nồi chiên không dầu: do bánh vào nồi chiên không dầu, chỉnh thời gian 30s
-                và 180 độ C.
-                Bánh mì có thể chiên lửa vừa trong vòng 2-3p với chảo dầu thật nóng (nên dùng giấy thấm dầu sau khi chiên)
-                ,hấp 7-10 phút hoặc Chiên lại bằng nồi chiên không dầu: do bánh vào nồi chiên không dầu, chỉnh thời gian 30s
-                và 180 độ C.
-                Bánh mì có thể chiên lửa vừa trong vòng 2-3p với chảo dầu thật nóng (nên dùng giấy thấm dầu sau khi chiên)
-                ,hấp 7-10 phút hoặc Chiên lại bằng nồi chiên không dầu: do bánh vào nồi chiên không dầu, chỉnh thời gian 30s
-                và 180 độ C.
-                Bánh mì có thể chiên lửa vừa trong vòng 2-3p với chảo dầu thật nóng (nên dùng giấy thấm dầu sau khi chiên)
-                ,hấp 7-10 phút hoặc Chiên lại bằng nồi chiên không dầu: do bánh vào nồi chiên không dầu, chỉnh thời gian 30s
-                và 180 độ C.
-                Bánh mì có thể chiên lửa vừa trong vòng 2-3p với chảo dầu thật nóng (nên dùng giấy thấm dầu sau khi chiên)
-                ,hấp 7-10 phút hoặc Chiên lại bằng nồi chiên không dầu: do bánh vào nồi chiên không dầu, chỉnh thời gian 30s
-                và 180 độ C.
-                Bánh mì có thể chiên lửa vừa trong vòng 2-3p với chảo dầu thật nóng (nên dùng giấy thấm dầu sau khi chiên)
-                ,hấp 7-10 phút hoặc Chiên lại bằng nồi chiên không dầu: do bánh vào nồi chiên không dầu, chỉnh thời gian 30s
-                và 180 độ C.
-                Bánh mì có thể chiên lửa vừa trong vòng 2-3p với chảo dầu thật nóng (nên dùng giấy thấm dầu sau khi chiên)
-                ,hấp 7-10 phút hoặc Chiên lại bằng nồi chiên không dầu: do bánh vào nồi chiên không dầu, chỉnh thời gian 30s
-                và 180 độ C.
-                Bánh mì có thể chiên lửa vừa trong vòng 2-3p với chảo dầu thật nóng (nên dùng giấy thấm dầu sau khi chiên)
-                ,hấp 7-10 phút hoặc Chiên lại bằng nồi chiên không dầu: do bánh vào nồi chiên không dầu, chỉnh thời gian 30s
-                và 180 độ C.
-                Bánh mì có thể chiên lửa vừa trong vòng 2-3p với chảo dầu thật nóng (nên dùng giấy thấm dầu sau khi chiên)
-                ,hấp 7-10 phút hoặc Chiên lại bằng nồi chiên không dầu: do bánh vào nồi chiên không dầu, chỉnh thời gian 30s
-                và 180 độ C.
-                Bánh mì có thể chiên lửa vừa trong vòng 2-3p với chảo dầu thật nóng (nên dùng giấy thấm dầu sau khi chiên)
-                ,hấp 7-10 phút hoặc Chiên lại bằng nồi chiên không dầu: do bánh vào nồi chiên không dầu, chỉnh thời gian 30s
-                và 180 độ C.
-                Bánh mì có thể chiên lửa vừa trong vòng 2-3p với chảo dầu thật nóng (nên dùng giấy thấm dầu sau khi chiên)
-                ,hấp 7-10 phút hoặc Chiên lại bằng nồi chiên không dầu: do bánh vào nồi chiên không dầu, chỉnh thời gian 30s
-                và 180 độ C.
-                Bánh mì có thể chiên lửa vừa trong vòng 2-3p với chảo dầu thật nóng (nên dùng giấy thấm dầu sau khi chiên)
-                ,hấp 7-10 phút hoặc Chiên lại bằng nồi chiên không dầu: do bánh vào nồi chiên không dầu, chỉnh thời gian 30s
-                và 180 độ C.
-            </Content>
+            <Content dangerouslySetInnerHTML={{__html: description}} />
         </ToggleShowAll>
     </>
 );
@@ -80,5 +24,7 @@ const Content = styled('div')({
     overflow: 'hidden',
     transition: 'all 0.5s',
 });
+
+Description.propTypes = propTypes;
 
 export default Description;

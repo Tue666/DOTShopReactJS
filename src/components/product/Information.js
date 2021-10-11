@@ -1,77 +1,83 @@
+import PropTypes from 'prop-types';
 import { styled } from '@mui/material/styles';
 import { Typography, Stack, Button } from '@mui/material';
 import { Favorite, AddShoppingCart, LocalShipping } from '@mui/icons-material';
 
 import Stars from '../Stars';
 
-const Information = () => (
-    <RootStyle>
-        <Typography variant='h6'>
-            Điện Thoại Xiaomi Redmi Note 10 Pro (8GB/128GB) - Hàng Chính Hãng
-        </Typography>
-        <Stack direction='row' alignItems='center' sx={{ my: '3px' }}>
-            <Stars total={5} rating={4} />
-            <Typography variant='subtitle1' sx={{ mx: '5px', fontSize: '15px' }}>
-                (From 69 ratings) | 1200 sold
+const propTypes = {
+    product: PropTypes.object
+};
+
+const Information = ({ product }) => {
+    const { rating, name, sold, discount, price, warranty } = product;
+    return (
+        <RootStyle>
+            <Typography variant='h6'>
+                {name}
             </Typography>
-            <LocalShipping fontSize='small' color='error' />
-        </Stack>
-        <PriceWrapper>
-            <Pricetext>20.000.000 vnđ</Pricetext>
-            <Typography component='span'>
-                <Typography
-                    component='span'
-                    sx={{ color: '#efefef', fontSize: '15px', textDecoration: 'line-through', mx: '5px' }}
-                >
-                    27.000.000 vnđ
+            <Stack direction='row' alignItems='center' sx={{ my: '3px' }}>
+                {rating && rating.total > 0 && <Stars total={5} rating={rating.average} sx={{ fontSize: '16px' }} />}
+                <Typography variant='subtitle1' sx={{ mx: '5px', fontSize: '15px' }}>
+                    {rating && rating.total > 0 && `(From ${rating.total} ratings) | `}
+                    {sold !== 0 && `${sold} sold`}
                 </Typography>
-                -10%
-            </Typography>
-        </PriceWrapper>
-        <Stack sx={{ mb: '35px' }}>
-            <Typography component='span'>
-                <Typography
-                    component='span'
-                    sx={{ color: 'rgb(120, 120, 120)', fontSize: '15px', mx: '5px' }}
+                <LocalShipping fontSize='small' color='error' />
+            </Stack>
+            <PriceWrapper>
+                <Pricetext>{discount === 0 ?
+                    price.toLocaleString('vi', { style: 'currency', currency: 'VND' }) :
+                    (price - price * discount / 100).toLocaleString('vi', { style: 'currency', currency: 'VND' })}
+                </Pricetext>
+                {discount !== 0 && (
+                    <Typography component='span'>
+                        <Typography
+                            component='span'
+                            sx={{ color: '#efefef', fontSize: '15px', textDecoration: 'line-through', mx: '5px' }}
+                        >
+                            {price.toLocaleString('vi', { style: 'currency', currency: 'VND' })}
+                        </Typography>
+                        -{discount}%
+                    </Typography>
+                )}
+            </PriceWrapper>
+            <Stack sx={{ mb: '35px' }}>
+                {warranty && warranty.map((item, index) => (
+                    <Typography component='span' key={index}>
+                        <Typography
+                            component='span'
+                            sx={{ color: 'rgb(120, 120, 120)', fontSize: '15px', mx: '5px' }}
+                        >
+                            {item.title}:
+                        </Typography>
+                        {item.text}
+                    </Typography>
+                ))}
+            </Stack>
+            <Stack direction='row' alignItems='center' sx={{ my: 3 }}>
+                <ButtonQ className="quantity-button disabled">-</ButtonQ>
+                <input type="text" className="quantity-input" defaultValue="1" />
+                <ButtonQ className="quantity-button ">+</ButtonQ>
+            </Stack>
+            <Stack direction='row' alignItems='center' sx={{ my: 3 }} spacing={1}>
+                <Button
+                    variant='contained'
+                    endIcon={<AddShoppingCart />}
+                    sx={{ backgroundColor: '#f76254' }}
                 >
-                    Warranty period:
-                </Typography>
-                18 tháng
-            </Typography>
-            <Typography component='span'>
-                <Typography
-                    component='span'
-                    sx={{ color: 'rgb(120, 120, 120)', fontSize: '15px', mx: '5px' }}
+                    ADD TO CART
+                </Button>
+                <Button
+                    variant='contained'
+                    endIcon={<Favorite />}
+                    sx={{ backgroundColor: '#e255fa' }}
                 >
-                    Warranty form:
-                </Typography>
-                Bảo hành điện tử
-            </Typography>
-            <Typography component='span'>
-                <Typography
-                    component='span'
-                    sx={{ color: 'rgb(120, 120, 120)', fontSize: '15px', mx: '5px' }}
-                >
-                    Warranty place:
-                </Typography>
-                Trung tâm bảo hành
-            </Typography>
-        </Stack>
-        <Stack direction='row' alignItems='center' sx={{ my: 3 }}>
-            <ButtonQ className="quantity-button disabled">-</ButtonQ>
-            <input type="text" className="quantity-input" defaultValue="1" />
-            <ButtonQ className="quantity-button ">+</ButtonQ>
-        </Stack>
-        <Stack direction='row' alignItems='center' sx={{ my: 3 }} spacing={1}>
-            <Button variant='contained' color='error' endIcon={<AddShoppingCart />}>
-                ADD TO CART
-            </Button>
-            <Button variant='contained' color='secondary' endIcon={<Favorite />}>
-                ADD TO FAVOTITES
-            </Button>
-        </Stack>
-    </RootStyle>
-);
+                    ADD TO FAVOTITES
+                </Button>
+            </Stack>
+        </RootStyle>
+    );
+}
 
 const RootStyle = styled('div')(({ theme }) => ({
     width: 'calc(100% - 450px)',
@@ -107,5 +113,7 @@ const ButtonQ = styled('button')({
         border: '1px solid #2195f3'
     }
 });
+
+Information.propTypes = propTypes;
 
 export default Information;

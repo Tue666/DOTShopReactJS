@@ -1,15 +1,33 @@
 import PropTypes from 'prop-types';
-import { StarRounded } from '@mui/icons-material';
+import { Fragment } from 'react';
+import { StarRounded, StarHalfRounded } from '@mui/icons-material';
 
 const propTypes = {
     total: PropTypes.number,
     rating: PropTypes.number
 };
 
-const Stars = ({ total, rating }) => (
+const Stars = ({ total, rating, sx }) => (
     <div>
         {[...Array(total)].map((e, i) => (
-            <StarRounded key={i} fontSize='small' color={rating >= i + 1 ? 'warning' : 'grey'} />
+            <Fragment key={i}>
+                {(i + 1) <= Math.floor(rating) ? (
+                    <StarRounded
+                        sx={{ ...sx, color: 'rgb(253, 216, 54)' }}
+                        fontSize='small'
+                    />
+                ) : (i + 1) - rating === 0.5 ? (
+                    <StarHalfRounded
+                        sx={{ ...sx, color: 'rgb(253, 216, 54)' }}
+                        fontSize='small'
+                    />
+                ) : (
+                    <StarRounded
+                        sx={{ ...sx, color: 'rgb(199, 199, 199)' }}
+                        fontSize='small'
+                    />
+                )}
+            </Fragment>
         ))}
     </div>
 );

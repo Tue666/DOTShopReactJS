@@ -1,7 +1,8 @@
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 import {
-    Grid,
+    Stack,
     Card,
     CardMedia,
     CardContent,
@@ -12,98 +13,85 @@ import {
 import { Favorite, AddShoppingCart, FindInPage } from '@mui/icons-material';
 
 import { CARD_WIDTH } from '../constant';
+import Stars from './Stars';
 
 const CARD = {
     WIDTH: CARD_WIDTH,
     HEIGHT: 'auto'
-}
+};
 
-const ProductCard = () => (
-    <RootStyle>
-        <ImageWrapper>
-            <Image
-                component="img"
-                height="200"
-                image="https://cf.shopee.vn/file/01fdd4d7dcee6fabebc22b9a8f138bc2_tn"
-                alt="Paella dish"
-            />
-        </ImageWrapper>
-        <CardContent>
-            {/* Product Name */}
-            <Link to='/detail/slug-product-name'>
-                <Name noWrap title="This impressive paella is a p. This impressive paella is a p">
-                    This impressive paella is a p. This impressive paella is a p
-                </Name>
-            </Link>
-            {/* Product Price */}
-            <Grid container alignItems="center">
-                <Grid item lg={9} sm={9}>
-                    <Price variant="body2" component="span">20.000.000 vnđ</Price>
-                </Grid>
-                <Grid item lg={3} sm={3}>
-                    <Typography
-                        variant="body2"
-                        component="span"
-                        noWrap
-                        sx={{ display: { xs: 'none', sm: 'none', md: 'flex', lg: 'flex' } }}
-                    >
-                        68
+const propTypes = {
+    product: PropTypes.object
+};
+
+const ProductCard = ({ product }) => {
+    const { _id, images, rating, name, slug, sold, price, discount } = product;
+    return (
+        <RootStyle>
+            <ImageWrapper>
+                <Image
+                    component="img"
+                    height="200"
+                    image={images[0]}
+                    alt={name}
+                />
+            </ImageWrapper>
+            <CardContent sx={{ height: '100px' }}>
+                {/* Product Name */}
+                <Link to={`/${slug}/pid=${_id}`}>
+                    <Name>
+                        <Typography variant='body2' title={name}>
+                            {name}
+                        </Typography>
+                    </Name>
+                </Link>
+                {/* Product rating & sold */}
+                <Stack direction='row' spacing={1} alignItems='center'>
+                    {Object.keys(rating).length !== 0 && (
+                        <Stars total={5} rating={rating.average} sx={{ fontSize: '14px' }} />
+                    )}
+                    <Typography variant='caption'>
+                        {sold !== 0 && `Đã bán ${sold}`}
                     </Typography>
-                </Grid>
-                <Grid item lg={8} sm={8}>
-                    <OldPrice variant="body2" component="span">27.000.000 vnđ</OldPrice>
-                    <Price variant="body2" component="span">-10%</Price>
-                </Grid>
-                <Grid item lg={4} sm={4}>
-                    <Typography
-                        variant="body2"
-                        component="span"
-                        noWrap
-                        sx={{ display: { xs: 'none', sm: 'none', md: 'flex', lg: 'flex' } }}
-                    >
-                        was sold
-                    </Typography>
-                </Grid>
-            </Grid>
-            <Typography
-                variant="body2"
-                component="span"
-                noWrap
-                sx={{ display: { xs: 'block', sm: 'block', md: 'none', lg: 'none' } }}
-            >
-                68 was sold
-            </Typography>
-        </CardContent>
-        <CardActions>
-            <Link to='/auth'>
+                </Stack>
+                {/* Product Price */}
+                <Stack direction='row' spacing={1} alignItems='center'>
+                    <Price tag={discount !== 0 ? 'sale' : 'normal'}>
+                        {discount === 0 ?
+                            price.toLocaleString('vi', { style: 'currency', currency: 'VND' })
+                            : (price - price * discount / 100).toLocaleString('vi', { style: 'currency', currency: 'VND' })}
+                    </Price>
+                    {discount !== 0 && <SaleTag>-{discount}%</SaleTag>}
+                </Stack>
+            </CardContent>
+            <CardActions>
                 <IconButton aria-label="add to carts">
                     <AddShoppingCart />
                 </IconButton>
-            </Link>
-            <Link to='/auth'>
                 <IconButton aria-label="add to favorites">
                     <Favorite />
                 </IconButton>
-            </Link>
-            <Link to='/detail/slug-product-name'>
-                <IconButton aria-label="add to favorites">
-                    <FindInPage />
-                </IconButton>
-            </Link>
-        </CardActions>
-    </RootStyle>
-);
+                <Link to={`/${slug}/pid=${_id}`}>
+                    <IconButton aria-label="add to favorites">
+                        <FindInPage />
+                    </IconButton>
+                </Link>
+            </CardActions>
+        </RootStyle>
+    );
+}
 
 const RootStyle = styled(Card)(({ theme }) => ({
     width: CARD.WIDTH,
     position: 'relative',
     borderRadius: '5px',
-    margin: '3px',
-    padding: '3px',
+    margin: '1px',
+    padding: '10px',
     backgroundImage: 'none',
     boxShadow: '3px 2px 5px rgba(180,180,180,0.1)',
     '&:hover': {
-        boxShadow: '3px 3px 4px rgba(180,180,180,0.2)',
+        boxShadow: 'rgb(0 0 0 / 10%) 0px 0px 20px',
+        zIndex: 1
     },
     '& .MuiCardContent-root': {
         padding: '2px 8px'
@@ -135,27 +123,32 @@ const Image = styled(CardMedia)({
     }
 });
 
-const Name = styled(Typography)({
-    fontWeight: 'bold',
-    fontSize: '17px',
+const Name = styled('div')({
+    display: '-webkit-box',
+    WebkitBoxOrient: 'vertical',
+    WebkitLineClamp: 2,
+    overflow: 'hidden',
     '&:hover': {
-        color: '#f53d2d'
+        color: 'red'
     }
 });
 
-const Price = styled(Typography)({
-    color: 'red',
-    fontWeight: 'bold',
-    fontSize: '16px',
-    display: 'inline-block'
+const SaleTag = styled('div')({
+    padding: '0px 2px',
+    fontSize: '12px',
+    fontWeight: '400',
+    border: '1px solid rgb(255, 66, 78)',
+    borderRadius: '2px',
+    backgroundColor: 'rgb(255, 240, 241)',
+    color: 'rgb(255, 66, 78)'
 });
 
-const OldPrice = styled(Typography)({
-    color: 'gray',
-    textDecoration: 'line-through',
-    fontSize: '13px',
-    marginRight: '3px',
-    display: 'inline-block'
-});
+const Price = styled(Typography)(({ tag, theme }) => ({
+    fontWeight: 'bold',
+    fontSize: '16px',
+    color: tag === 'sale' ? 'red' : theme.palette.text.primary
+}));
+
+ProductCard.propTypes = propTypes;
 
 export default ProductCard;
