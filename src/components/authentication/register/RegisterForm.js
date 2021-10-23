@@ -1,37 +1,34 @@
 import PropTypes from 'prop-types';
-import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Stack, Typography } from '@mui/material';
+import { Stack, Alert } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import { Formik, Form, FastField } from 'formik';
 
+import useAuth from '../../../hooks/useAuth';
 import { registerSchema } from '../../../utils/yupSchema';
 import { InputField } from '../../custom-field';
-import accountApi from '../../../apis/accountApi';
+
 
 const propTypes = {
     PATH_AUTH: PropTypes.object
 };
 
 const RegisterForm = ({ PATH_AUTH }) => {
-    const [message, setMessage] = useState('');
     const history = useHistory();
+    const { register } = useAuth();
     const initialValues = {
         name: '',
         email: '',
         password: '',
         passwordConfirm: ''
     };
-    const handleSubmit = async values => {
+    const handleSubmit = async (values, { setErrors, resetForm }) => {
         try {
-            const res = await accountApi.register(values.name, values.email, values.password, values.passwordConfirm);
-            if (res.status === 'error') {
-                setMessage(res.message);
-            } else {
-                history.replace(PATH_AUTH.login, res);
-            }
+            const res = await register(values.name, values.email, values.password, values.passwordConfirm);
+            history.replace(PATH_AUTH.login, res);
         } catch (error) {
-            console.log(error);
+            resetForm();
+            setErrors({ afterSubmit: error.response.statusText });
         }
     };
     return (
@@ -40,7 +37,7 @@ const RegisterForm = ({ PATH_AUTH }) => {
             validationSchema={registerSchema}
             onSubmit={handleSubmit}
         >
-            {({ isSubmitting }) => (
+            {({ isSubmitting, errors }) => (
                 <Form>
                     <Stack spacing={3}>
                         <FastField
@@ -71,14 +68,7 @@ const RegisterForm = ({ PATH_AUTH }) => {
                             label='Password confirmation'
                             color='success'
                         />
-                        {message && (
-                            <Typography
-                                variant='subtitle1'
-                                sx={{ textAlign: 'center', color: '#f76254', fontWeight: 'bold' }}
-                            >
-                                {message}
-                            </Typography>
-                        )}
+                        {errors.afterSubmit && <Alert severity="error">{errors.afterSubmit}</Alert>}
                         <LoadingButton
                             loading={isSubmitting}
                             type='submit'

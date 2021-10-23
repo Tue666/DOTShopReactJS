@@ -1,37 +1,33 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+
+import accountApi from '../../apis/accountApi';
 
 const initialState = {
-    isLoading: false,
-    error: false,
-    user: {}
+    user: null
 };
+
+export const getProfile = createAsyncThunk('user/getProfile', async () => {
+    const user = await accountApi.getProfile();
+    return user;
+});
 
 const slide = createSlice({
     name: 'account',
     initialState,
     reducers: {
-        startLoading: (state) => {
-            state.isLoading = true;
-        },
-        hasError: (state, action) => {
-            state.isLoading = false;
-            state.error = action.payload;
-        },
-        getUser: (state, action) => {
-            state.isLoading = false;
-            state.user = action.payload;
-        },
         removeUser: (state) => {
-            state.isLoading = false;
-            state.user = {}
+            state.user = null
+        }
+    },
+    extraReducers: {
+        [getProfile.fulfilled]: (state, action) => {
+            state.user = action.payload;
         }
     }
 });
 
 export const {
-    startLoading,
-    hasError,
-    getUser,
     removeUser
-} = slide.actions; 
+} = slide.actions;
+
 export default slide.reducer;

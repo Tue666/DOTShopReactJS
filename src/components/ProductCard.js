@@ -13,6 +13,7 @@ import {
 import { Favorite, AddShoppingCart, FindInPage } from '@mui/icons-material';
 
 import { CARD_WIDTH } from '../constant';
+import { toVND } from '../utils/formatMoney';
 import Stars from './Stars';
 
 const CARD = {
@@ -26,44 +27,46 @@ const propTypes = {
 
 const ProductCard = ({ product }) => {
     const { _id, images, rating, name, slug, sold, price, discount } = product;
+    const { average, total } = rating;
     return (
         <RootStyle>
-            <ImageWrapper>
-                <Image
-                    component="img"
-                    height="200"
-                    image={images[0]}
-                    alt={name}
-                />
-            </ImageWrapper>
-            <CardContent sx={{ height: '100px' }}>
-                {/* Product Name */}
-                <Link to={`/${slug}/pid=${_id}`}>
+            <Link to={`/${slug}/pid=${_id}`}>
+                <ImageWrapper>
+                    <Image
+                        component="img"
+                        height="200"
+                        image={images[0]}
+                        alt={name}
+                    />
+                </ImageWrapper>
+                <CardContent sx={{ height: '100px' }}>
+                    {/* Product Name */}
                     <Name>
                         <Typography variant='body2' title={name}>
                             {name}
                         </Typography>
                     </Name>
-                </Link>
-                {/* Product rating & sold */}
-                <Stack direction='row' spacing={1} alignItems='center'>
-                    {Object.keys(rating).length !== 0 && (
-                        <Stars total={5} rating={rating.average} sx={{ fontSize: '14px' }} />
-                    )}
-                    <Typography variant='caption'>
-                        {sold !== 0 && `Đã bán ${sold}`}
-                    </Typography>
-                </Stack>
-                {/* Product Price */}
-                <Stack direction='row' spacing={1} alignItems='center'>
-                    <Price tag={discount !== 0 ? 'sale' : 'normal'}>
-                        {discount === 0 ?
-                            price.toLocaleString('vi', { style: 'currency', currency: 'VND' })
-                            : (price - price * discount / 100).toLocaleString('vi', { style: 'currency', currency: 'VND' })}
-                    </Price>
-                    {discount !== 0 && <SaleTag>-{discount}%</SaleTag>}
-                </Stack>
-            </CardContent>
+                    {/* Product rating & sold */}
+                    <Stack direction='row' spacing={1} alignItems='center'>
+                        {total > 0 && (
+                            <Stars total={5} rating={average} sx={{ fontSize: '14px' }} />
+                        )}
+                        <Typography variant='caption'>
+                            {sold !== 0 && `Đã bán ${sold}`}
+                        </Typography>
+                    </Stack>
+                    {/* Product Price */}
+                    <Stack direction='row' spacing={1} alignItems='center'>
+                        <Price tag={discount !== 0 ? 'sale' : 'normal'}>
+                            {discount === 0
+                                ? toVND(price)
+                                : toVND(price - price * discount / 100)
+                            }
+                        </Price>
+                        {discount !== 0 && <SaleTag>-{discount}%</SaleTag>}
+                    </Stack>
+                </CardContent>
+            </Link>
             <CardActions>
                 <IconButton aria-label="add to carts">
                     <AddShoppingCart />

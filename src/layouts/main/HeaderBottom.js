@@ -3,8 +3,9 @@ import { Box, Grid } from '@mui/material';
 
 import Logo from '../../components/Logo';
 import SearchBar from '../../components/SearchBar';
-import StorageProduct from './StorageProduct';
 import SwitchTheme from './SwitchTheme';
+import CartPopover from './CartPopover';
+import FavoritePopover from './FavoritePopover';
 
 const HeaderBottom = () => (
     <>
@@ -12,8 +13,8 @@ const HeaderBottom = () => (
             <Logo>CV SHOP</Logo>
             <SearchBar />
             <BoxContainer>
-                <StorageProduct type='cart' />
-                <StorageProduct type='favorites' />
+                <CartPopover />
+                <FavoritePopover />
                 <SwitchTheme />
             </BoxContainer>
         </BoxContainer>
@@ -27,8 +28,8 @@ const HeaderBottom = () => (
             </Grid>
             <Grid item xs={6}>
                 <BoxContainer>
-                    <StorageProduct type='cart' />
-                    <StorageProduct type='favorites' />
+                    <CartPopover />
+                    <FavoritePopover />
                     <SwitchTheme />
                 </BoxContainer>
             </Grid>

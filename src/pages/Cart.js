@@ -1,25 +1,59 @@
-import { Container, Stack, Breadcrumbs, Link, Typography } from '@mui/material';
+import { Link } from 'react-router-dom';
+import { Container, Stack, Breadcrumbs, Typography, Button } from '@mui/material';
+import { useSelector } from 'react-redux';
 
+import Image from '../components/Image';
+import { PATH_PAGE } from '../routes/path';
 import { CartList, TotalPrice } from '../components/cart';
 
-const Cart = () => (
-    <Container className="wide-container">
-        <Breadcrumbs separator='›' sx={{ pb: '5px' }}>
-            <Link underline='none' fontSize='15px' color='inherit' href='/'>
-                Trang chủ
-            </Link>
-            <Typography fontSize='15px' color='text.primary'>
-                Giỏ hàng
+const Cart = () => {
+    const { user } = useSelector(state => state.user);
+    const { totalItem, cart } = useSelector(state => state.cart);
+    return (
+        <Container className="wide-container">
+            <Breadcrumbs separator='›' sx={{ pb: '5px' }}>
+                <Link to={PATH_PAGE.home} style={{ fontSize: '15px' }}>
+                    Home
+                </Link>
+                <Typography fontSize='15px' color='text.primary'>
+                    Cart
+                </Typography>
+            </Breadcrumbs>
+            <Typography variant='h5' sx={{ mb: 2 }}>
+                Cart
             </Typography>
-        </Breadcrumbs>
-        <Stack
-            direction={{ xs: 'column', sm: 'column', lg: 'row' }}
-            justifyContent='space-between'
-        >
-            <CartList />
-            <TotalPrice />
-        </Stack>
-    </Container>
-);
+            {totalItem !== 0 && (
+                <Stack
+                    direction={{ xs: 'column', sm: 'column', lg: 'row' }}
+                    justifyContent='space-between'
+                >
+                    <CartList totalItem={totalItem} cart={cart} />
+                    <TotalPrice user={user} cart={cart} />
+                </Stack>
+            )}
+            {totalItem === 0 && (
+                <Stack
+                    alignItems='center'
+                    spacing={1}
+                    sx={{ p: 5, backgroundColor: theme => theme.palette.background.paper }}
+                >
+                    <Image
+                        src='https://salt.tikicdn.com/desktop/img/mascot@2x.png'
+                        alt=''
+                        sx={{ width: '190px', height: '160px' }}
+                    />
+                    <Typography variant='title'>
+                        There are no products in your cart.
+                    </Typography>
+                    <Link to={PATH_PAGE.home}>
+                        <Button color='warning' variant='contained'>
+                            BUY NOW
+                        </Button>
+                    </Link>
+                </Stack>
+            )}
+        </Container>
+    );
+}
 
 export default Cart;

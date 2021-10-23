@@ -8,7 +8,7 @@ const propTypes = {
     user: PropTypes.object
 };
 
-const NotifycationPopover = ({ user }) => {
+const NotifycationPopover = () => {
     const anchorNotify = useRef(null);
     const [openedPopover, setOpenedPopover] = useState(false);
     const popoverEnter = () => {
@@ -36,14 +36,7 @@ const NotifycationPopover = ({ user }) => {
                 onMouseEnter={popoverEnter}
                 onMouseLeave={popoverLeave}
             >
-                {Object.keys(user).length !== 0 ? (
-                    <>
-                        <div style={{ backgroundColor: 'red', cursor: 'pointer' }}>Popover is showing</div>
-                        <div>Popover is showing</div>
-                    </>
-                ) : (
-                    <h6>Chưa đăng nhập</h6>
-                )}
+                <h3>Hehe</h3>
             </MainPopover>
         </>
     );

@@ -40,13 +40,15 @@ const RootStyle = styled('div')(({ theme }) => ({
 const MainImage = styled('img')(({ theme }) => ({
     width: '100%',
     height: '370px',
-    borderBottom: `3px solid ${theme.palette.background.default}`
+    borderBottom: `3px solid ${theme.palette.background.default}`,
+    borderRadius: '5px'
 }));
 
 const MoreImage = styled('img')({
     width: '72px',
     height: '67px',
     backgroundSize: '100% auto',
+    borderRadius: '5px',
     cursor: 'pointer',
     '&:hover': {
         border: '1px solid gray',

@@ -1,46 +1,29 @@
-import { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 import { Link as RouterLink, useHistory } from 'react-router-dom';
-import { Link, Stack, FormControlLabel, Checkbox, Typography } from '@mui/material';
+import { Link, Stack, FormControlLabel, Checkbox, Alert } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import { Formik, Form, FastField } from 'formik';
 
-import { PATH_PAGE } from '../../../routes/path'; 
-import { startLoading, hasError, getUser } from '../../../redux/slices/user';
-import { loginSchema } from '../../../utils/yupSchema';
+import useAuth from '../../../hooks/useAuth';
+import { PATH_PAGE } from '../../../routes/path';
 import { InputField } from '../../custom-field';
-import accountApi from '../../../apis/accountApi';
+import { loginSchema } from '../../../utils/yupSchema';
 
 const LoginForm = () => {
-    const [status, setStatus] = useState('error');
-    const [message, setMessage] = useState('');
-    const dispatch = useDispatch();
     const history = useHistory();
-    useEffect(() => {
-        const { state } = history.location;
-        if (state) {
-            setStatus(state.status);
-            setMessage(state.message);
-        }
-    }, [history.location]);
+    const { state } = history.location;
+    const { login } = useAuth();
     const initalValues = {
         email: '',
         password: ''
     };
-    const handleSubmit = async values => {
-        dispatch(startLoading());
+    const handleSubmit = async (values, { setErrors, resetForm }) => {
         try {
-            const res = await accountApi.login(values.email, values.password);
-            if (res.status === 'error') {
-                setStatus(res.status);
-                setMessage(res.message);
-            } else {
-                // console.log(res.user, res.accessToken);
-                dispatch(getUser(res.user));
-                history.replace(PATH_PAGE.home, values);
-            }
+            await login(values.email, values.password);
+            const path = state?.from ? state.from : PATH_PAGE.home;
+            history.replace(path);
         } catch (error) {
-            dispatch(hasError(error));
+            resetForm();
+            setErrors({ afterSubmit: error.response.statusText });
         }
     };
     return (
@@ -49,7 +32,7 @@ const LoginForm = () => {
             validationSchema={loginSchema}
             onSubmit={handleSubmit}
         >
-            {({ isSubmitting }) => (
+            {({ isSubmitting, errors }) => (
                 <Form>
                     <Stack spacing={3}>
                         <FastField
@@ -75,14 +58,8 @@ const LoginForm = () => {
                                 Forgot password?
                             </Link>
                         </Stack>
-                        {(status && message) && (
-                            <Typography
-                                variant='subtitle1'
-                                sx={{ textAlign: 'center', color: status === 'success' ? '#38c771' : '#f76254', fontWeight: 'bold' }}
-                            >
-                                {message}
-                            </Typography>
-                        )}
+                        {state && state.message && <Alert severity="success">{state.message}</Alert>}
+                        {errors.afterSubmit && <Alert severity="error">{errors.afterSubmit}</Alert>}
                         <LoadingButton
                             loading={isSubmitting}
                             type='submit'

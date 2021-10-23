@@ -1,18 +1,17 @@
 import PropTypes from 'prop-types';
 import { useState, useRef } from 'react';
-import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
-import { Box, Divider, MenuItem, ListItemIcon } from '@mui/material';
+import { Stack, Divider, MenuItem, ListItemIcon } from '@mui/material';
 import { AssignmentIndOutlined, AssignmentOutlined, SwitchAccountOutlined, LogoutOutlined } from '@mui/icons-material';
+import { useSelector } from 'react-redux';
 
 import { PATH_AUTH } from '../../routes/path';
-import { removeUser } from '../../redux/slices/user';
 import AvatarBadge from '../../components/AvatarBadge';
 import MainPopover from '../../components/MainPopover';
 
 const propTypes = {
-    user: PropTypes.object
+    logout: PropTypes.func
 };
 
 const MENU_OPTIONS = [
@@ -28,11 +27,12 @@ const MENU_OPTIONS = [
     }
 ];
 
-const AccountPopover = ({ user }) => {
-    const dispatch = useDispatch();
+const AccountPopover = ({ logout }) => {
+    const { user } = useSelector(state => state.user);
     const history = useHistory();
     const anchorNotify = useRef(null);
     const [openedPopover, setOpenedPopover] = useState(false);
+    console.log('account popover', user);
 
     const popoverEnter = () => {
         setOpenedPopover(true);
@@ -41,9 +41,13 @@ const AccountPopover = ({ user }) => {
         setOpenedPopover(false);
     };
 
-    const handleLogout = type => {
-        dispatch(removeUser());
-        type === 'switch' && history.replace(PATH_AUTH.login);
+    const handleLogout = async type => {
+        try {
+            await logout();
+            type === 'switch' && history.replace(PATH_AUTH.login);
+        } catch (error) {
+            console.log(error);
+        }
     };
     return (
         <>
@@ -65,8 +69,8 @@ const AccountPopover = ({ user }) => {
                 onMouseEnter={popoverEnter}
                 onMouseLeave={popoverLeave}
             >
-                <Box
-                    sx={{ width: '250px', display: 'flex', flexDirection: 'column', p: 2 }}
+                <Stack
+                    sx={{ width: '250px', p: 2 }}
                 >
                     <AvatarBadge
                         status='online'
@@ -95,7 +99,7 @@ const AccountPopover = ({ user }) => {
                         </ListItemIcon>
                         Log out
                     </MenuItem>
-                </Box>
+                </Stack>
             </MainPopover>
         </>
     );

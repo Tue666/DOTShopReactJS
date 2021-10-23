@@ -16,16 +16,19 @@ const actions = [
     { icon: combineLink('product-list', <Ballot />), name: 'Suggestions for you' },
 ];
 
-const Home = () => (
-    <Container>
-        <Teleport actions={actions} />
-        <Banners id='banners' />
-        <ProductSection id='sold-section' type='sold' title="Hot selling products" />
-        <Categories id='categories' />
-        <ProductSection id='search-section' type='searched' title="Most searching products" />
-        <ProductSection id='view-section' type='viewed' title="Top view products" />
-        <ProductList id='product-list' />
-    </Container>
-);
+const Home = () => {
+    console.log('home page');
+    return (
+        <Container>
+            <Teleport actions={actions} />
+            <Banners id='banners' />
+            <ProductSection id='sold-section' type='sold' title="Hot selling products" />
+            <Categories id='categories' />
+            <ProductSection id='search-section' type='searched' title="Most searching products" />
+            <ProductSection id='view-section' type='viewed' title="Top view products" />
+            <ProductList id='product-list' />
+        </Container>
+    );
+}
 
 export default Home;

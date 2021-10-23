@@ -4,21 +4,21 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider as ReduxProvider } from 'react-redux';
-import { PersistGate } from 'redux-persist/integration/react';
 
-import { store, persistor } from './redux/store';
+import { store } from './redux/store';
+import { AuthProvider } from './contexts/AuthContext';
 import { SettingsProvider } from './contexts/SettingsContext';
 
 ReactDOM.render(
   <React.StrictMode>
     <ReduxProvider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
+      <AuthProvider>
         <SettingsProvider>
           <BrowserRouter>
             <App />
           </BrowserRouter>
         </SettingsProvider>
-      </PersistGate>
+      </AuthProvider>
     </ReduxProvider>
   </React.StrictMode>,
   document.getElementById('root')

@@ -21,7 +21,7 @@ const AuthLayout = ({ children }) => (
                 <Image src="https://images.pngnice.com/download/2007/Shopping-PNG-Photos.png" alt="" />
             </MoveImage>
             <MoveImage>
-                <Image src="http://dotshop69.000webhostapp.com/Public/images/hinh.png" alt="" />
+                <Image src="https://images.pngnice.com/download/2007/Shopping-PNG-Photos.png" alt="" />
             </MoveImage>
             <MoveImage>
                 <Image src="https://www.graphicsprings.com/filestorage/stencils/bdc5649fb67a5ab2fc8b4a0dc0eac951.png?width=500&height=500" alt="" />

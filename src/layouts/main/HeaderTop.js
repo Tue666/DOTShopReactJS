@@ -1,4 +1,3 @@
-import { useSelector } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 import { Link, Stack } from '@mui/material';
@@ -7,8 +6,11 @@ import { PATH_AUTH } from '../../routes/path';
 import AccountPopover from './AccountPopover';
 import NotifycationPopover from './NotifycationPopover';
 
+import useAuth from '../../hooks/useAuth';
+
 const HeaderTop = () => {
-    const { user } = useSelector(state => state.user);
+    const { isAuthenticated, logout } = useAuth();
+    console.log('header top', isAuthenticated);
     return (
         <>
             <Stack
@@ -25,26 +27,26 @@ const HeaderTop = () => {
                     </Linking>
                 </Stack>
                 <Stack direction='row' justifyContent='space-between'>
-                    <NotifycationPopover user={user} />
+                    <NotifycationPopover />
                     <Label>
                         <i className="fas fa-question-circle"></i> Support
                     </Label>
-                    {Object.keys(user).length !== 0 ? (
-                        <AccountPopover user={user} />
-                    ) : (
-                        <>
-                            <Linking
-                                component={RouterLink}
-                                to={PATH_AUTH.login}
-                                sx={{ ml: '20px', borderRight: '1px solid #ccc' }}
-                            >
-                                Sign in
-                            </Linking>
-                            <Linking component={RouterLink} to={PATH_AUTH.register}>
-                                Sign up
-                            </Linking>
-                        </>
-                    )}
+                    {isAuthenticated
+                        ? <AccountPopover logout={logout} />
+                        : (
+                            <>
+                                <Linking
+                                    component={RouterLink}
+                                    to={PATH_AUTH.login}
+                                    sx={{ ml: '20px', borderRight: '1px solid #ccc' }}
+                                >
+                                    Sign in
+                                </Linking>
+                                <Linking component={RouterLink} to={PATH_AUTH.register}>
+                                    Sign up
+                                </Linking>
+                            </>
+                        )}
                 </Stack>
             </Stack >
             <Label

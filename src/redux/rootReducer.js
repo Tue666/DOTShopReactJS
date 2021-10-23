@@ -1,26 +1,12 @@
 import { combineReducers } from 'redux';
-import { persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
 
 // slides
 import userReducer from './slices/user';
-
-const rootPersistConfig = {
-    key: 'root',
-    storage,
-    keyPrefix: 'persis-',
-    whitelist: []
-};
-
-const userPersistConfig = {
-    key: 'user',
-    storage,
-    keyPrefix: 'persis-',
-    whitelist: ['user']
-};
+import cartReducer from './slices/cart';
 
 const rootReducer = combineReducers({
-    user: persistReducer(userPersistConfig, userReducer)
+    user: userReducer,
+    cart: cartReducer
 });
 
-export { rootPersistConfig, rootReducer };
+export { rootReducer };

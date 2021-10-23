@@ -4,6 +4,7 @@ import { Typography, Stack, Button } from '@mui/material';
 import { Favorite, AddShoppingCart, LocalShipping } from '@mui/icons-material';
 
 import Stars from '../Stars';
+import { toVND } from '../../utils/formatMoney';
 
 const propTypes = {
     product: PropTypes.object
@@ -25,17 +26,19 @@ const Information = ({ product }) => {
                 <LocalShipping fontSize='small' color='error' />
             </Stack>
             <PriceWrapper>
-                <Pricetext>{discount === 0 ?
-                    price.toLocaleString('vi', { style: 'currency', currency: 'VND' }) :
-                    (price - price * discount / 100).toLocaleString('vi', { style: 'currency', currency: 'VND' })}
-                </Pricetext>
+                <PriceText>
+                    {discount === 0
+                        ? toVND(price)
+                        : toVND(price - price * discount / 100)
+                    }
+                </PriceText>
                 {discount !== 0 && (
                     <Typography component='span'>
                         <Typography
                             component='span'
                             sx={{ color: '#efefef', fontSize: '15px', textDecoration: 'line-through', mx: '5px' }}
                         >
-                            {price.toLocaleString('vi', { style: 'currency', currency: 'VND' })}
+                            {toVND(price)}
                         </Typography>
                         -{discount}%
                     </Typography>
@@ -97,7 +100,7 @@ const PriceWrapper = styled('div')({
     color: '#fff'
 });
 
-const Pricetext = styled('span')({
+const PriceText = styled('span')({
     fontSize: '32px',
     fontWeight: 'bold',
     display: 'block'

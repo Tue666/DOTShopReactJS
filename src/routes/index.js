@@ -1,6 +1,7 @@
 import { lazy, Suspense } from 'react';
 import { Switch, Route } from 'react-router-dom';
 
+import PrivateRoute from '../guards/PrivateRoute';
 import MainLayout from '../layouts/main';
 import AuthLayout from '../layouts/authentication';
 import Loading from '../pages/Loading';
@@ -20,10 +21,10 @@ const Router = () => (
                 <MainLayout>
                     <Switch>
                         <Route path='/' exact component={Home} />
-                        <Route path='/cart' exact component={Cart} />
+                        <PrivateRoute path='/cart' exact component={Cart} />
                         {/* provide a random key (date now) to trigger reload if already in that current url */}
-                        <Route path='/:slugProduct/pid:slugId' exact render={props => <Detail {...props} key={Date.now()}/>} />
-                        <Route path='/:slugCategory/cid:slugId' exact render={props => <Categories {...props} key={Date.now()}/>} />
+                        <Route path='/:slugProduct/pid:slugId' exact render={props => <Detail {...props} key={Date.now()} />} />
+                        <Route path='/:slugCategory/cid:slugId' exact render={props => <Categories {...props} key={Date.now()} />} />
                         <Route path='*' component={NotFound} />
                     </Switch>
                 </MainLayout>

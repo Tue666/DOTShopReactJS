@@ -17,7 +17,7 @@ const SettingsProvider = ({ children }) => {
             ...settings,
             themeMode: e.target.checked ? 'dark' : 'light'
         })
-    }
+    };
     return (
         <SettingsContext.Provider
             value={{

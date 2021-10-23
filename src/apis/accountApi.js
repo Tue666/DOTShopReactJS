@@ -13,6 +13,12 @@ const accountApi = {
         return axiosInstance.get(url);
     },
 
+    // [GET] /accounts/profile
+    getProfile: () => {
+        const url = '/accounts/profile';
+        return axiosInstance.get(url);
+    },
+
     // [POST] /accounts/login
     login: (email, password) => {
         const url = '/accounts/login';
