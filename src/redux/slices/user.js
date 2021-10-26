@@ -11,7 +11,7 @@ export const getProfile = createAsyncThunk('user/getProfile', async () => {
     return user;
 });
 
-const slide = createSlice({
+const slice = createSlice({
     name: 'account',
     initialState,
     reducers: {
@@ -28,6 +28,6 @@ const slide = createSlice({
 
 export const {
     removeUser
-} = slide.actions;
+} = slice.actions;
 
-export default slide.reducer;
+export default slice.reducer;

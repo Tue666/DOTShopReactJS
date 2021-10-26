@@ -15,7 +15,7 @@ const SwitchTheme = () => {
                     color='error'
                 />
             }
-            label={themeMode === 'dark' ? <i className="fas fa-cloud-moon" style={{ color: '#f53d2d' }}></i> : <i className="fas fa-sun" style={{ color: 'orange' }}></i>}
+            label={themeMode === 'dark' ? <span>🌜</span> : <span>🌞</span>}
         />
     );
 };

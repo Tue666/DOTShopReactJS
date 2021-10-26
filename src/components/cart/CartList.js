@@ -1,16 +1,16 @@
 import PropTypes from 'prop-types';
-import { useState } from 'react';
 import { styled } from '@mui/material/styles';
-import { Stack, Checkbox, Typography, IconButton, Alert } from '@mui/material';
+import { Stack, Checkbox, Typography, IconButton } from '@mui/material';
 import { DeleteForeverOutlined, Favorite, Check } from '@mui/icons-material';
 import { useDispatch } from 'react-redux';
 
 import { CART_WIDTH } from '../../constant';
 import { HEADER_HEIGHT } from '../../constant';
-import { toggleCheck, removeCart } from '../../redux/slices/cart';
+import { toggleCheck } from '../../redux/slices/cart';
+import useSnackbar from '../../hooks/useSnackbar';
+import useModal from '../../hooks/useModal';
 import CartItem from './CartItem';
 import Image from '../Image';
-import Modal from '../Modal';
 
 const propTypes = {
     totalItem: PropTypes.number,
@@ -18,10 +18,8 @@ const propTypes = {
 };
 
 const CartList = ({ totalItem, cart }) => {
-    const [modal, setModal] = useState({
-        openModal: false,
-        _id: null
-    });
+    const { setSnackbar } = useSnackbar();
+    const { setModal } = useModal();
     const dispatch = useDispatch();
     const isCheckedAll = cart.filter(item => !item.checked).length === 0;
     const totalPrice = cart.reduce((sum, item) => {
@@ -36,27 +34,26 @@ const CartList = ({ totalItem, cart }) => {
             isCheckedAll: e.target.checked
         }));
     };
-    const handleRemove = () => {
-        const { _id } = modal;
-        dispatch(removeCart(_id));
+    const handleRemove = _id => {
+        // Prevent remove all if many boxes were't checked
+        const isCheckedMany = cart.filter(item => item.checked).length > 0;
+        if (!_id && !isCheckedMany) {
+            setSnackbar({
+                isOpen: true,
+                type: null,
+                message: 'Please select the product to delete'
+            });
+            return;
+        }
         setModal({
-            openModal: false,
-            _id: null
+            isOpen: true,
+            _id,
+            title: 'Are you sure you wanna remove these products?',
+            content: 'The products will be permanently removed from the cart!',
+            type: 'error',
+            caseSubmit: 'remove/cart'
         });
     };
-    const handleOpenModal = _id => {
-        setModal({
-            openModal: true,
-            _id
-        });
-    };
-    const handleCloseModal = () => {
-        setModal({
-            openModal: false,
-            _id: null
-        });
-    };
-    console.log(modal);
     return (
         <RootStyle>
             <Heading>
@@ -75,7 +72,7 @@ const CartList = ({ totalItem, cart }) => {
                         <Typography className='cart-col-2' variant='subtitle2'>Single</Typography>
                         <Typography className='cart-col-3' variant='subtitle2'>Quantity</Typography>
                         <Typography className='cart-col-4' variant='subtitle2'>Price</Typography>
-                        <IconButton className='cart-col-5' color='error' onClick={() => handleOpenModal(null)}>
+                        <IconButton className='cart-col-5' color='error' onClick={() => handleRemove(null)}>
                             <DeleteForeverOutlined />
                         </IconButton>
                     </Stack>
@@ -108,19 +105,12 @@ const CartList = ({ totalItem, cart }) => {
                     <CartItem
                         key={item._id}
                         item={item}
-                        onOpenModal={handleOpenModal}
                         onChange={handleChange}
+                        onRemove={handleRemove}
                     />
                 ))}
                 {!cart && 'Loading...'}
             </Content>
-            <Modal
-                open={modal.openModal}
-                title='Are you sure you wanna remove this product?'
-                content={<Alert severity="error">The product will be permanently removed from the cart!</Alert>}
-                onCloseModal={handleCloseModal}
-                onSubmit={handleRemove}
-            />
         </RootStyle>
     )
 };

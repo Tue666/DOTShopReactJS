@@ -70,7 +70,7 @@ const TotalPrice = ({ user, cart }) => {
                         <Stack alignItems='end'>
                             <Typography variant='subtitle1' sx={{ fontWeight: 'bold', color: 'red' }}>
                                 {isChecked === 0 && 'Choose a product, please!'}
-                                {isChecked !== 0 && toVND(totalPrice - totalCoupon - totalFreeShip)}
+                                {isChecked !== 0 && toVND(totalPrice - totalCoupon + totalFreeShip)}
                             </Typography>
                             <Typography variant='caption'>
                                 (VAT includes)

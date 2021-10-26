@@ -1,20 +1,79 @@
 import PropTypes from 'prop-types';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 import { Stack, Checkbox, Typography, IconButton } from '@mui/material';
 import { Favorite } from '@mui/icons-material';
 import { DeleteForeverOutlined } from '@mui/icons-material';
+import { useDispatch } from 'react-redux';
 
 import { toVND } from '../../utils/formatMoney';
+import { updateQuantity } from '../../redux/slices/cart';
+import useModal from '../../hooks/useModal';
+import useSnackbar from '../../hooks/useSnackbar';
 
 const propTypes = {
     item: PropTypes.object,
-    onOpenModal: PropTypes.func,
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
+    onRemove: PropTypes.func
 };
 
-const CartItem = ({ item, onOpenModal, onChange }) => {
-    const { _id, images, name, slug, price, discount, quantity, amount, checked } = item;
+const CartItem = ({ item, onChange, onRemove }) => {
+    const [input, setInput] = useState(item.amount.toString());
+    const { setModal } = useModal();
+    const { setSnackbar } = useSnackbar();
+    const dispatch = useDispatch();
+    const { _id, images, name, slug, price, discount, quantity, amount, checked, limit } = item;
+    const handleChange = e => {
+        const value = e.target.value;
+        if (!/^\d+$/.test(value)) return;
+        setInput(value);
+        dispatch(updateQuantity({
+            cartId: _id,
+            amount: parseInt(value),
+            volatility: null
+        }));
+    };
+    const handleDecrease = () => {
+        if (amount - 1 < 1) {
+            setModal({
+                isOpen: true,
+                _id,
+                title: 'Are you sure you wanna remove these products?',
+                content: 'The products will be permanently removed from the cart!',
+                type: 'error',
+                caseSubmit: 'remove/cart'
+            });
+            return;
+        }
+        dispatch(updateQuantity({
+            cartId: _id,
+            amount: 1,
+            volatility: 'dec'
+        }));
+    };
+    const handleIncrease = () => {
+        if (amount + 1 > quantity) {
+            setSnackbar({
+                isOpen: true,
+                type: null,
+                message: `The remaining quantity of the product is ${quantity}`
+            });
+            return;
+        } else if (limit !== 0 && amount + 1 > limit && limit <= quantity) {
+            setSnackbar({
+                isOpen: true,
+                type: null,
+                message: `Maximum purchase quantity for this product is ${limit}`
+            });
+            return;
+        }
+        dispatch(updateQuantity({
+            cartId: _id,
+            amount: 1,
+            volatility: 'inc'
+        }));
+    };
     return (
         <Stack direction='row' alignItems='center' sx={{ py: '30px', borderBottom: (theme) => `2px solid ${theme.palette.background.default}` }}>
             <Stack className="cart-col-1" direction='row' alignItems='center'>
@@ -48,16 +107,26 @@ const CartItem = ({ item, onOpenModal, onChange }) => {
             </Stack>
             <Stack className='cart-col-3'>
                 <Stack direction='row' alignItems='center'>
-                    <Button className="quantity-button disabled">-</Button>
-                    <input type="text" className="quantity-input" defaultValue={amount} />
-                    <Button className="quantity-button ">+</Button>
+                    <Button
+                        className='quantity-button'
+                        onClick={handleDecrease}
+                    >-</Button>
+                    <input
+                        className='quantity-input'
+                        type='text'
+                        value={amount}
+                        onChange={handleChange} />
+                    <Button
+                        className={`quantity-button ${(limit !== 0 && amount >= limit) || amount >= quantity ? 'disabled' : ''}`}
+                        onClick={handleIncrease}
+                    >+</Button>
                 </Stack>
                 {quantity <= 5 && <Typography variant='caption' color='error'>Only {quantity} left</Typography>}
             </Stack>
             <Typography className='cart-col-4' variant='subtitle2' color='error' sx={{ fontWeight: 'bold' }}>
                 {toVND(amount * (price - (price * discount / 100)))}
             </Typography>
-            <IconButton className='cart-col-5' color='error' onClick={() => onOpenModal(_id)}>
+            <IconButton className='cart-col-5' color='error' onClick={() => onRemove(_id)}>
                 <DeleteForeverOutlined />
             </IconButton>
         </Stack>
@@ -87,10 +156,13 @@ const Button = styled('button')({
     cursor: 'pointer',
     width: '30px',
     '&.disabled': {
-        pointerEvents: 'none !important'
+        cursor: 'default'
     },
     '&:hover': {
         border: '1px solid #2195f3'
+    },
+    '&.disabled:hover': {
+        border: '1px solid red'
     }
 });
 

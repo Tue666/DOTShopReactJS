@@ -2,21 +2,22 @@ import Cookies from 'js-cookie';
 import axiosInstance from '../apis/axiosInstance';
 
 const getToken = () => {
-    return Cookies.get('accessToken');
+    const accessToken = Cookies.get('accessToken');
+    return accessToken ? JSON.parse(accessToken) : null;
 };
 
-const setToken = accessToken => {
-    if (accessToken) {
-        Cookies.set('accessToken', accessToken);
-        axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+const setToken = tokens => {
+    if (tokens) {
+        Cookies.set('accessToken', JSON.stringify(tokens));
+        axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${tokens.accessToken}`;
     } else {
         Cookies.remove('accessToken');
         delete axiosInstance.defaults.headers.common['Authorization'];
     }
 };
 
-const isValidToken = async accessToken => {
-    if (!accessToken) return false;
+const isValidToken = async tokens => {
+    if (!tokens) return false;
     return await axiosInstance.get('/accounts/verify');
 };
 

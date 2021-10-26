@@ -32,7 +32,6 @@ const AccountPopover = ({ logout }) => {
     const history = useHistory();
     const anchorNotify = useRef(null);
     const [openedPopover, setOpenedPopover] = useState(false);
-    console.log('account popover', user);
 
     const popoverEnter = () => {
         setOpenedPopover(true);
@@ -109,10 +108,12 @@ const Label = styled('span')({
     padding: '0px 10px',
     fontWeight: '500',
     transition: '0.3s',
-    fontSize: '15px',
+    fontSize: '14px',
     cursor: 'pointer',
+    borderBottom: '1px solid transparent',
     '&:hover': {
-        color: '#f53d2d'
+        color: '#f53d2d',
+        borderBottom: '1px solid #f53d2d'
     }
 });
 

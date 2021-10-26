@@ -13,7 +13,7 @@ const AuthLayout = ({ children }) => (
         direction={{ xs: 'column', lg: 'row' }}
         justifyContent='space-around'
         alignItems='center'
-        sx={{ p: 6, backgroundColor: '#fff' }}
+        sx={{ p: 6, backgroundColor: theme => theme.palette.background.paper }}
     >
         <ImageWrapper>
             <Image src="https://www.pngplay.com/wp-content/uploads/6/E-Commerce-Shopping-PNG-Clipart-Background.png" alt="" />

@@ -1,17 +1,43 @@
 import PropTypes from 'prop-types';
+import { useState } from 'react';
+import { useHistory } from 'react-router';
 import { styled } from '@mui/material/styles';
 import { Typography, Stack, Button } from '@mui/material';
 import { Favorite, AddShoppingCart, LocalShipping } from '@mui/icons-material';
+import { useDispatch } from 'react-redux';
 
 import Stars from '../Stars';
 import { toVND } from '../../utils/formatMoney';
+import { getToken } from '../../utils/jwt';
+import { addCart } from '../../redux/slices/cart';
+import { PATH_AUTH } from '../../routes/path';
 
 const propTypes = {
     product: PropTypes.object
 };
 
 const Information = ({ product }) => {
-    const { rating, name, sold, discount, price, warranty } = product;
+    const [input, setInput] = useState('1');
+    const dispatch = useDispatch();
+    const history = useHistory();
+    const tokens = getToken();
+    const { _id, rating, name, sold, discount, price, warranty } = product;
+    const handleChange = e => {
+        const value = e.target.value;
+        if (!/^\d+$/.test(value)) return;
+        setInput(value);
+    };
+    const handleAddCart = () => {
+        if (tokens) {
+            dispatch(addCart({
+                productId: _id,
+                quantity: parseInt(input)
+            }));
+        } else {
+            const { pathname } = history.location;
+            history.push(PATH_AUTH.login, { from: pathname });
+        }
+    };
     return (
         <RootStyle>
             <Typography variant='h6'>
@@ -58,22 +84,34 @@ const Information = ({ product }) => {
                 ))}
             </Stack>
             <Stack direction='row' alignItems='center' sx={{ my: 3 }}>
-                <ButtonQ className="quantity-button disabled">-</ButtonQ>
-                <input type="text" className="quantity-input" defaultValue="1" />
-                <ButtonQ className="quantity-button ">+</ButtonQ>
+                <ButtonQ
+                    className={`quantity-button ${parseInt(input) === 1 ? 'disabled' : ''}`}
+                    onClick={() => setInput(parseInt(input) - 1)}
+                >-</ButtonQ>
+                <input
+                    type="text"
+                    className="quantity-input"
+                    value={input}
+                    onChange={handleChange}
+                />
+                <ButtonQ
+                    className="quantity-button"
+                    onClick={() => setInput(parseInt(input) + 1)}
+                >+</ButtonQ>
             </Stack>
             <Stack direction='row' alignItems='center' sx={{ my: 3 }} spacing={1}>
                 <Button
                     variant='contained'
                     endIcon={<AddShoppingCart />}
-                    sx={{ backgroundColor: '#f76254' }}
+                    color='error'
+                    onClick={handleAddCart}
                 >
                     ADD TO CART
                 </Button>
                 <Button
                     variant='contained'
                     endIcon={<Favorite />}
-                    sx={{ backgroundColor: '#e255fa' }}
+                    color='secondary'
                 >
                     ADD TO FAVOTITES
                 </Button>

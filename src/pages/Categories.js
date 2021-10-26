@@ -17,7 +17,6 @@ const Categories = () => {
     const queryParams = new URLSearchParams(useLocation().search).toString();
     const parsedQueries = queryString.parse(queryParams ? queryParams : 'sort=default&page=1');
     useEffect(() => {
-        let isMounted = true;
         const getCategory = async () => {
             try {
                 const category = await categoryApi.getCategory(slugCategory);
@@ -26,7 +25,7 @@ const Categories = () => {
                     ...parsedQueries, //queries filter
                     take: 16 //take quantity
                 });
-                isMounted && setResonse({
+                setResonse({
                     category,
                     result
                 });
@@ -35,8 +34,8 @@ const Categories = () => {
             }
         };
         getCategory();
-        return () => isMounted = false;
-    }, [slugCategory, parsedQueries]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [slugCategory]);
     return (
         <Container className='wide-container'>
             <Teleport />

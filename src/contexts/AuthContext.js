@@ -53,9 +53,9 @@ const AuthProvider = ({ children }) => {
     useEffect(() => {
         const initialize = async () => {
             try {
-                const accessToken = getToken();
-                setToken(accessToken);
-                const isAuthenticated = await isValidToken(accessToken);
+                const tokens = getToken();
+                setToken(tokens);
+                const isAuthenticated = await isValidToken(tokens);
                 if (isAuthenticated) {
                     await dispatchSlice(getProfile());
                     await dispatchSlice(getCart());
@@ -71,8 +71,8 @@ const AuthProvider = ({ children }) => {
         initialize();
     }, [dispatchSlice]);
     const login = async (email, password) => {
-        const res = await accountApi.login(email, password);
-        setToken(res.accessToken);
+        const tokens = await accountApi.login(email, password);
+        setToken(tokens);
         await dispatchSlice(getProfile());
         await dispatchSlice(getCart());
         dispatch({

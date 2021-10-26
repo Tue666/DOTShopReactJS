@@ -1,5 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
+import { initSnackbar } from '../slices/snackbar';
+import { statusText } from '../../constant';
 import cartApi from '../../apis/cartApi';
 
 const initialState = {
@@ -12,23 +14,38 @@ export const getCart = createAsyncThunk('cart/getCart', async () => {
     return res;
 });
 
-const slide = createSlice({
+const slice = createSlice({
     name: 'cart',
     initialState,
     reducers: {
         onToggleSuccess: (state, action) => {
             const { _id, isCheckedAll } = action.payload;
-            let newCart = [];
             // _id null will toggle all checkboxes
             if (!_id) {
-                newCart = state.cart.map(item => ({ ...item, checked: isCheckedAll }));
+                state.cart = state.cart.map(item => ({ ...item, checked: isCheckedAll }));
             } else {
-                newCart = state.cart.map(item => item._id === _id ? { ...item, checked: !item.checked } : item);
+                state.cart = state.cart.map(item => item._id === _id ? { ...item, checked: !item.checked } : item);
             }
-            return {
-                ...state,
-                cart: newCart
-            };
+        },
+        updateQuantitySuccess: (state, action) => {
+            const { _id, newAmount } = action.payload;
+            state.cart = state.cart.map(item => item._id === _id ? { ...item, amount: newAmount } : item);
+        },
+        addCartSuccess: (state, action) => {
+            const { item, quantity } = action.payload;
+            const isEmptyCart = state.totalItem === 0;
+            if (isEmptyCart) {
+                state.cart = [item];
+                state.totalItem = 1
+            } else {
+                if (state.cart.some(product => product._id === item._id)) {
+                    state.cart = state.cart.map(product => product._id === item._id ? { ...product, amount: quantity } : product);
+                }
+                else {
+                    state.cart = [item, ...state.cart];
+                    state.totalItem = state.totalItem + 1;
+                }
+            }
         },
         removeCartSuccess: (state, action) => {
             const _id = action.payload;
@@ -66,17 +83,56 @@ const slide = createSlice({
 
 export const {
     deleteCart
-} = slide.actions;
+} = slice.actions;
 
-export default slide.reducer;
+export default slice.reducer;
 
 export const toggleCheck = params => async dispatch => {
     try {
         const { cartId, isCheckedAll } = params;
         const res = await cartApi.toggleCheck(cartId, isCheckedAll);
-        dispatch(slide.actions.onToggleSuccess({
+        dispatch(slice.actions.onToggleSuccess({
             _id: res._id,
             isCheckedAll
+        }));
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export const updateQuantity = params => async dispatch => {
+    try {
+        const { cartId, amount, volatility } = params;
+        const res = await cartApi.updateQuantity(cartId, amount, volatility);
+        dispatch(slice.actions.updateQuantitySuccess({
+            _id: res._id,
+            newAmount: res.newQuantity
+        }))
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export const addCart = params => async dispatch => {
+    try {
+        const { productId, quantity } = params;
+        const res = await cartApi.addCart(productId, quantity);
+        if (res.status === statusText.ERROR) {
+            dispatch(initSnackbar({
+                isOpen: true,
+                type: null,
+                message: res.message
+            }));
+            return;
+        }
+        dispatch(slice.actions.addCartSuccess({
+            item: res.item,
+            quantity: res.quantity
+        }));
+        dispatch(initSnackbar({
+            isOpen: true,
+            type: 'success',
+            message: res.message
         }));
     } catch (error) {
         console.log(error);
@@ -86,7 +142,7 @@ export const toggleCheck = params => async dispatch => {
 export const removeCart = cartId => async dispatch => {
     try {
         const res = await cartApi.removeCart(cartId);
-        dispatch(slide.actions.removeCartSuccess(res._id));
+        dispatch(slice.actions.removeCartSuccess(res._id));
     } catch (error) {
         console.log(error);
     }

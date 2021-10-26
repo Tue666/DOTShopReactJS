@@ -10,7 +10,6 @@ import useAuth from '../../hooks/useAuth';
 
 const HeaderTop = () => {
     const { isAuthenticated, logout } = useAuth();
-    console.log('header top', isAuthenticated);
     return (
         <>
             <Stack
@@ -64,9 +63,11 @@ const Linking = styled(Link)(({ theme }) => ({
     padding: '0px 10px',
     fontWeight: '500',
     transition: '0.3s',
-    fontSize: '15px',
+    fontSize: '14px',
+    borderBottom: '1px solid transparent',
     '&:hover': {
-        color: '#f53d2d'
+        color: '#f53d2d',
+        borderBottom: '1px solid #f53d2d'
     }
 }));
 
@@ -74,10 +75,12 @@ const Label = styled('span')({
     padding: '0px 10px',
     fontWeight: '500',
     transition: '0.3s',
-    fontSize: '15px',
+    fontSize: '14px',
     cursor: 'pointer',
+    borderBottom: '1px solid transparent',
     '&:hover': {
-        color: '#f53d2d'
+        color: '#f53d2d',
+        borderBottom: '1px solid #f53d2d'
     }
 });
 

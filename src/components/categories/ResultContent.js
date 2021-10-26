@@ -28,11 +28,11 @@ const FILTER_NAVS = [
     },
     {
         label: 'Giá rẻ',
-        sort: 'price%asc'
+        sort: 'price-asc'
     },
     {
         label: 'Giá cao',
-        sort: 'price%desc'
+        sort: 'price-desc'
     }
 ];
 
