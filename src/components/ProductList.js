@@ -44,7 +44,7 @@ const ProductList = ({ id }) => {
                                     </Typography>
                                 </LoadButton>
                             )}
-                            {isLoading && <CircularProgress size={20} />}
+                            {isLoading && <CircularProgress size={25} color='error' />}
                         </LoadMore>
 
                         {error && <Typography color='error' variant='subtitle2'>Could't load the products</Typography>}

@@ -1,5 +1,6 @@
 import { Container } from '@mui/material';
 
+import Page from '../components/Page';
 import Teleport from '../components/Teleport';
 import { combineLink } from '../components/ScrollToTop';
 import { Banners, Categories } from '../components/home';
@@ -17,15 +18,17 @@ const actions = [
 ];
 
 const Home = () => (
-    <Container>
-        <Teleport actions={actions} />
-        <Banners id='banners' />
-        <ProductSection id='sold-section' type='sold' title="Hot selling products" />
-        <Categories id='categories' />
-        <ProductSection id='search-section' type='searched' title="Most searching products" />
-        <ProductSection id='view-section' type='viewed' title="Top view products" />
-        <ProductList id='product-list' />
-    </Container>
+    <Page title='CV Shop - Buy online, good price, good quality, fast shipping'>
+        <Container>
+            <Teleport actions={actions} />
+            <Banners id='banners' />
+            <ProductSection id='sold-section' type='sold' title="Hot selling products" />
+            <Categories id='categories' />
+            <ProductSection id='search-section' type='searched' title="Most searching products" />
+            <ProductSection id='view-section' type='viewed' title="Top view products" />
+            <ProductList id='product-list' />
+        </Container>
+    </Page>
 );
 
 export default Home;

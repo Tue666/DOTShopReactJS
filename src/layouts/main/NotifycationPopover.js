@@ -1,44 +1,42 @@
-import PropTypes from 'prop-types';
-import { useState, useRef } from 'react';
+// import { useState, useRef } from 'react';
 import { styled } from '@mui/material/styles';
 
-import MainPopover from '../../components/MainPopover';
-
-const propTypes = {
-    user: PropTypes.object
-};
+// import MainPopover from '../../components/MainPopover';
 
 const NotifycationPopover = () => {
-    const anchorNotify = useRef(null);
-    const [openedPopover, setOpenedPopover] = useState(false);
-    const popoverEnter = () => {
-        setOpenedPopover(true);
-    };
-    const popoverLeave = () => {
-        setOpenedPopover(false);
-    };
+    // const anchorNotify = useRef(null);
+    // const [openedPopover, setOpenedPopover] = useState(false);
+    // const popoverEnter = () => {
+    //     setOpenedPopover(true);
+    // };
+    // const popoverLeave = () => {
+    //     setOpenedPopover(false);
+    // };
     return (
-        <>
-            <Label
-                ref={anchorNotify}
-                onMouseEnter={popoverEnter}
-                onMouseLeave={popoverLeave}
-            >
-                <i className="fas fa-bell"></i> Notification
-            </Label>
-            <MainPopover
-                open={openedPopover}
-                anchorEl={anchorNotify.current}
-                anchorVer="bottom"
-                anchorHor="right"
-                transformVer="top"
-                transformHor="right"
-                onMouseEnter={popoverEnter}
-                onMouseLeave={popoverLeave}
-            >
-                <h3>Hehe</h3>
-            </MainPopover>
-        </>
+        <Label>
+            <i className="fas fa-bell"></i> Notification
+        </Label>
+        // <>
+        //     <Label
+        //         ref={anchorNotify}
+        //         onMouseEnter={popoverEnter}
+        //         onMouseLeave={popoverLeave}
+        //     >
+        //         <i className="fas fa-bell"></i> Notification
+        //     </Label>
+        //     <MainPopover
+        //         open={openedPopover}
+        //         anchorEl={anchorNotify.current}
+        //         anchorVer="bottom"
+        //         anchorHor="right"
+        //         transformVer="top"
+        //         transformHor="right"
+        //         onMouseEnter={popoverEnter}
+        //         onMouseLeave={popoverLeave}
+        //     >
+        //         <h3>Hehe</h3>
+        //     </MainPopover>
+        // </>
     );
 };
 
@@ -54,7 +52,5 @@ const Label = styled('span')({
         borderBottom: '1px solid #f53d2d'
     }
 });
-
-NotifycationPopover.propTypes = propTypes;
 
 export default NotifycationPopover;

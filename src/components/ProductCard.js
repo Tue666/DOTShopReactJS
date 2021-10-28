@@ -53,8 +53,9 @@ const ProductCard = ({ product }) => {
                     <Image
                         component="img"
                         height="200"
-                        image={images[0]}
-                        alt={name}
+                        data-src={images[0]}
+                        alt='Image...'
+                        className='lazyload'
                     />
                 </ImageWrapper>
                 <CardContent sx={{ height: '100px' }}>

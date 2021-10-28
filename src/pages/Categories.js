@@ -5,6 +5,7 @@ import { styled } from '@mui/material/styles';
 import { Container, Breadcrumbs, Typography, Stack, Skeleton } from '@mui/material';
 import queryString from 'query-string';
 
+import Page from '../components/Page';
 import { PATH_PAGE } from '../routes/path';
 import Teleport from '../components/Teleport';
 import { FilterCategory, ResultContent } from '../components/categories';
@@ -37,62 +38,64 @@ const Categories = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [slugCategory]);
     return (
-        <Container className='wide-container'>
-            <Teleport />
-            {response && (
-                <Fragment>
-                    <StyledBreadcrumbs separator='›'>
-                        <Link to={PATH_PAGE.home} style={{ fontSize: '15px' }}>
-                            Trang chủ
-                        </Link>
-                        {response.category.parents && response.category.parents.map(category => (
-                            <Link key={category._id} to={`/${category.slug}/cid${category._id}`} style={{ fontSize: '15px' }}>
-                                {category.title}
+        <Page title={`Buy online ${response ? response.category.title : ''} good price | CV Shop`}>
+            <Container className='wide-container'>
+                <Teleport />
+                {response && (
+                    <Fragment>
+                        <StyledBreadcrumbs separator='›'>
+                            <Link to={PATH_PAGE.home} style={{ fontSize: '15px' }}>
+                                Home
                             </Link>
-                        )).reverse()}
-                        <Typography fontSize='15px' color='text.primary'>
-                            {response.category.title}
-                        </Typography>
-                    </StyledBreadcrumbs>
-                    <Stack direction={{ xs: 'column', sm: 'row', lg: 'row' }} justifyContent='space-between'>
-                        <FilterCategory children={response.category.children} />
-                        <ResultContent response={response} />
-                    </Stack>
-                </Fragment>
-            )}
+                            {response.category.parents && response.category.parents.map(category => (
+                                <Link key={category._id} to={`/${category.slug}/cid${category._id}`} style={{ fontSize: '15px' }}>
+                                    {category.title}
+                                </Link>
+                            )).reverse()}
+                            <Typography fontSize='15px' color='text.primary'>
+                                {response.category.title}
+                            </Typography>
+                        </StyledBreadcrumbs>
+                        <Stack direction={{ xs: 'column', sm: 'row', lg: 'row' }} justifyContent='space-between'>
+                            <FilterCategory children={response.category.children} queryObject={parsedQueries} />
+                            <ResultContent response={response} queryObject={parsedQueries} />
+                        </Stack>
+                    </Fragment>
+                )}
 
-            {!response && (
-                <Stack direction={{ xs: 'column', sm: 'row', lg: 'row' }} justifyContent='space-between'>
-                    <FilterSkeleton>
-                        {[...Array(3)].map((_, index) => (
-                            <Stack key={index} sx={{ mb: 3 }}>
-                                <Skeleton variant='text' height={50} />
-                                {[...Array(4)].map((_, index) => (
-                                    <Fragment key={index}>
-                                        <Skeleton variant='text' />
-                                        <Skeleton variant='text' width={200} />
-                                    </Fragment>
-                                ))}
-                            </Stack>
-                        ))}
-                    </FilterSkeleton>
-                    <ResultSkeleton>
-                        <Skeleton variant='text' width={300} height={50} />
-                        <Skeleton variant='text' height={50} />
-                        <Wrapper>
-                            {[...Array(12)].map((_, index) => (
-                                <Stack key={index} sx={{ p: 2 }} >
-                                    <Skeleton variant='rectangular' width={180} height={180} />
-                                    <Skeleton variant='text' height={45} />
-                                    <Skeleton variant='text' width={150} />
-                                    <Skeleton variant='text' width={130} />
+                {!response && (
+                    <Stack direction={{ xs: 'column', sm: 'row', lg: 'row' }} justifyContent='space-between'>
+                        <FilterSkeleton>
+                            {[...Array(3)].map((_, index) => (
+                                <Stack key={index} sx={{ mb: 3 }}>
+                                    <Skeleton variant='text' height={50} />
+                                    {[...Array(4)].map((_, index) => (
+                                        <Fragment key={index}>
+                                            <Skeleton variant='text' />
+                                            <Skeleton variant='text' width={200} />
+                                        </Fragment>
+                                    ))}
                                 </Stack>
                             ))}
-                        </Wrapper>
-                    </ResultSkeleton>
-                </Stack>
-            )}
-        </Container>
+                        </FilterSkeleton>
+                        <ResultSkeleton>
+                            <Skeleton variant='text' width={300} height={50} />
+                            <Skeleton variant='text' height={50} />
+                            <Wrapper>
+                                {[...Array(12)].map((_, index) => (
+                                    <Stack key={index} sx={{ p: 2 }} >
+                                        <Skeleton variant='rectangular' width={180} height={180} />
+                                        <Skeleton variant='text' height={45} />
+                                        <Skeleton variant='text' width={150} />
+                                        <Skeleton variant='text' width={130} />
+                                    </Stack>
+                                ))}
+                            </Wrapper>
+                        </ResultSkeleton>
+                    </Stack>
+                )}
+            </Container>
+        </Page>
     );
 };
 

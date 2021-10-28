@@ -1,7 +1,13 @@
+// lazysizes
+import 'lazysizes';
+// import a plugin
+import 'lazysizes/plugins/parent-fit/ls.parent-fit';
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { HelmetProvider } from 'react-helmet-async';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider as ReduxProvider } from 'react-redux';
 
@@ -11,15 +17,17 @@ import { SettingsProvider } from './contexts/SettingsContext';
 
 ReactDOM.render(
   <React.StrictMode>
-    <ReduxProvider store={store}>
-      <AuthProvider>
-        <SettingsProvider>
-          <BrowserRouter>
-            <App />
-          </BrowserRouter>
-        </SettingsProvider>
-      </AuthProvider>
-    </ReduxProvider>
+    <HelmetProvider>
+      <ReduxProvider store={store}>
+        <AuthProvider>
+          <SettingsProvider>
+            <BrowserRouter>
+              <App />
+            </BrowserRouter>
+          </SettingsProvider>
+        </AuthProvider>
+      </ReduxProvider>
+    </HelmetProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

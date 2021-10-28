@@ -1,10 +1,27 @@
 import { styled } from '@mui/material/styles';
 import { Stack, Typography, Divider } from '@mui/material';
 
+import Image from '../../components/Image';
+
+const PAYMENT_METHODS = [
+    { image: 'https://thuthuatmaytinh.vn/wp-content/uploads/2019/02/ZaloPay-logo.png' },
+    { image: 'https://upload.wikimedia.org/wikipedia/vi/archive/f/fe/20201011055543%21MoMo_Logo.png' },
+    { image: 'https://seeklogo.com/images/V/visa-logo-121ECA05B2-seeklogo.com.png' },
+    { image: 'https://brasol.vn/public/ckeditor/uploads/thiet-ke-logo-tin-tuc/y-nghia-logo-tiki.jpg' },
+    { image: 'https://4.bp.blogspot.com/-ItRaVmM-PoU/XgrlppcnvcI/AAAAAAAABPY/Pbgwlu9Gb7UKLJFekuqk5__OPWQvqq08gCLcBGAsYHQ/s200-c/shopee%2B1.png' },
+    { image: 'https://itviec.com/rails/active_storage/representations/proxy/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBMzhYRHc9PSIsImV4cCI6bnVsbCwicHVyIjoiYmxvYl9pZCJ9fQ==--b10722ddd28995368dc1ae4a5e2fac06989e93b7/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdDVG9MWm05eWJXRjBTU0lJY0c1bkJqb0dSVlE2RkhKbGMybDZaVjkwYjE5c2FXMXBkRnNIYVFJc0FXa0NMQUU2RDJKaFkydG5jbTkxYm1SSklnd2pSa1pHUmtaR0Jqc0dWRG9MWlhoMFpXNTBTU0lNTXpBd2VETXdNQVk3QmxRPSIsImV4cCI6bnVsbCwicHVyIjoidmFyaWF0aW9uIn19--7d96359076aa1ae3adcce15831d4033d052b9214/cong-ty-cp-cong-ngh-va-d-ch-v-moca-logo.png' }
+];
+
+const CONNECTS = [
+    { image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Facebook_logo_36x36.svg/2048px-Facebook_logo_36x36.svg.png' },
+    { image: 'https://assets.materialup.com/uploads/5199f7ce-bb8c-4e39-95b0-5f10b67e8ec4/avatar.jpg' },
+    { image: 'https://inkythuatso.com/uploads/thumbnails/800/2021/09/zalo-logo-inkythuatso-14-15-05-01.jpg' }
+];
+
 const MainFooter = () => (
     <RootStyle>
-        <Stack direction='row' spacing={3} sx={{ py: 2, flexWrap: 'wrap' }}>
-            <Stack sx={{ py: 2, width: '226px' }}>
+        <Stack direction='row' sx={{ flexWrap: 'wrap' }}>
+            <Stack sx={{ m: 2, width: '226px' }}>
                 <Typography variant='subtitle2' sx={{ py: 1 }}>Customer support</Typography>
                 <Typography variant='caption'>Hotline: 1999-9999 (1000 VND/minute, 8-21 hours including Saturday and Sunday)</Typography>
                 <Typography variant='caption'>Frequently asked Questions</Typography>
@@ -15,7 +32,7 @@ const MainFooter = () => (
                 <Typography variant='caption'>Installment Instructions</Typography>
                 <Typography variant='caption'>Import policy</Typography>
             </Stack>
-            <Stack sx={{ py: 2, width: '226px' }}>
+            <Stack sx={{ m: 2, width: '226px' }}>
                 <Typography variant='subtitle2' sx={{ py: 1 }}>Shop</Typography>
                 <Typography variant='caption'>About shop</Typography>
                 <Typography variant='caption'>Recruitment</Typography>
@@ -24,10 +41,61 @@ const MainFooter = () => (
                 <Typography variant='caption'>Complaint handling policy</Typography>
                 <Typography variant='caption'>terms of use</Typography>
             </Stack>
-            <Stack sx={{ py: 2, width: '226px' }}>
-                <Typography variant='subtitle2' sx={{ py: 1 }}>Cooperation and association</Typography>
-                <Typography variant='caption'>Regulations on operation of E-commerce trading floor</Typography>
-                <Typography variant='caption'>Selling with Tiki</Typography>
+            <Stack sx={{ m: 2, width: '226px' }}>
+                <Stack>
+                    <Typography variant='subtitle2' sx={{ py: 1 }}>Cooperation and association</Typography>
+                    <Typography variant='caption'>Regulations on operation of E-commerce trading floor</Typography>
+                    <Typography variant='caption'>Selling with Tiki</Typography>
+                </Stack>
+                <Stack>
+                    <Typography variant='subtitle2' sx={{ py: 1 }}>Certified by</Typography>
+                    <Image
+                        src='https://frontend.tikicdn.com/_desktop-next/static/img/footer/bo-cong-thuong.svg'
+                        alt=''
+                        sx={{ width: '83px', height: '32px' }}
+                    />
+                </Stack>
+            </Stack>
+            <Stack sx={{ m: 2, width: '226px' }}>
+                <Typography variant='subtitle2' sx={{ py: 1 }}>Payment methods</Typography>
+                <StyledGrid>
+                    {PAYMENT_METHODS.map((item, index) => (
+                        <Image
+                            key={index}
+                            src={item.image}
+                            alt=''
+                            sx={{ width: '32px', height: '32px', borderRadius: '10px' }}
+                        />
+                    ))}
+
+                </StyledGrid>
+            </Stack>
+            <Stack sx={{ m: 2, width: '226px' }}>
+                <Typography variant='subtitle2' sx={{ py: 1 }}>Connect with us</Typography>
+                <StyledGrid>
+                    {CONNECTS.map((item, index) => (
+                        <Image
+                            key={index}
+                            src={item.image}
+                            alt=''
+                            sx={{ width: '32px', height: '32px', borderRadius: '50%' }}
+                        />
+                    ))}
+
+                </StyledGrid>
+                <Stack>
+                    <Typography variant='subtitle2' sx={{ py: 1 }}>Download the app</Typography>
+                    <Image
+                        src='https://frontend.tikicdn.com/_desktop-next/static/img/icons/appstore.png'
+                        alt=''
+                        sx={{ width: '122px', height: '36px', borderRadius: '5px' }}
+                    />
+                    <Image
+                        src='https://frontend.tikicdn.com/_desktop-next/static/img/icons/playstore.png'
+                        alt=''
+                        sx={{ width: '122px', height: '36px', borderRadius: '5px', marginTop: '10px' }}
+                    />
+                </Stack>
             </Stack>
         </Stack>
         <Divider />
@@ -45,11 +113,6 @@ const MainFooter = () => (
             <Typography variant='subtitle2'>Promotions and offers are overflowing</Typography>
             <Typography variant='caption'>You want to hunt for a shocking price, Shop has a shocking price every day for you! You are a fan of brands, genuine Official stores are waiting for you. No need to hunt for freeship codes, because shop already has millions of products in the Freeship+ program, unlimited bookings, saving your precious time. Buy more ShopNOW savings packages to receive 100% free shipping 2h same day, or buy premium ShopNOW packages to receive 100% freeship, applicable to 100% products, 100% provinces in Vietnam. Want to save even more? Already have ShopCARD, shop credit card refund 15% on all transactions (maximum refund 600k/month).</Typography>
         </Stack>
-        <Divider />
-        <Stack sx={{ py: 2 }}>
-            <Typography variant='subtitle1' sx={{ py: 1 }}>Product portfolio</Typography>
-
-        </Stack>
     </RootStyle>
 );
 
@@ -59,6 +122,11 @@ const RootStyle = styled('div')(({ theme }) => ({
     backgroundColor: theme.palette.background.paper
 }));
 
-
+const StyledGrid = styled('div')({
+    paddingBlock: '10px',
+    display: 'grid',
+    gridTemplateColumns: 'repeat(4,1fr)',
+    gridGap: '5px'
+});
 
 export default MainFooter;

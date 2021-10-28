@@ -1,51 +1,92 @@
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
-import { Stack, Typography, Pagination } from '@mui/material';
+import { Stack, Typography, Pagination, Chip } from '@mui/material';
 import { StarRateTwoTone } from '@mui/icons-material';
 
-import { HEADER_HEIGHT } from '../../constant';
+import updateQueryParams from '../../utils/updateQueryParams';
+import ProductCard from '../ProductCard';
 import Slick from '../slick/Slick';
 import { settingBanners } from '../slick/SlickSettings';
-import ProductCard from '../ProductCard';
+import { HEADER_HEIGHT } from '../../constant';
+import { toVND } from '../../utils/formatMoney';
 
 const propTypes = {
-    response: PropTypes.object
+    response: PropTypes.object,
+    queryObject: PropTypes.object
 };
 
 const FILTER_NAVS = [
     {
-        label: 'Phổ biến',
+        label: 'Popular',
         sort: 'default'
     },
     {
-        label: 'Bán chạy',
+        label: 'Hot selling',
         sort: 'top_seller'
     },
     {
-        label: 'Hàng mới',
+        label: 'Newest',
         sort: 'newest'
     },
     {
-        label: 'Giá rẻ',
+        label: 'Cheap',
         sort: 'price-asc'
     },
     {
-        label: 'Giá cao',
+        label: 'Expensive',
         sort: 'price-desc'
     }
 ];
 
-const ResultContent = ({ response }) => {
+const ResultContent = ({ response, queryObject }) => {
     const { category, result } = response;
     const { products, totalProduct, pagination, filter } = result;
     const history = useHistory();
+    const { pathname, search } = history.location;
+    const chips = Object.keys(queryObject)
+        .filter(key => key !== 'sort' && key !== 'page')
+        .map(key => {
+            let label = '';
+            switch (key) {
+                case 'rating':
+                    label = queryObject[key] + ' stars';
+                    break;
+                case 'price':
+                    const [from, to] = queryObject[key].split('-');
+                    (from === '0' && to === '400000')
+                        ? label = `Less than ${toVND(400000)}`
+                        : (from === '3400000' && to === '99999999999')
+                            ? label = `More than ${toVND(3400000)}`
+                            : label = `From ${toVND(parseInt(from))} to ${toVND(parseInt(to))} `
+                    break;
+                default:
+                    break;
+            }
+            return { key, label };
+        });
     const handleFilter = sort => {
         history.replace(`?sort=${sort}&page=1`);
         window.scrollTo(0, 0);
     };
     const handlePagination = (event, value) => {
-        history.replace(`?sort=${filter.sort}&page=${value}`);
+        const to = updateQueryParams(pathname + search, {
+            page: value
+        });
+        history.replace(to);
+        window.scrollTo(0, 0);
+    };
+    const handleDeleteChip = key => {
+        const search = new URLSearchParams(history.location.search);
+        if (key === 'all') {
+            Object.keys(queryObject)
+                .filter(key => key !== 'sort' && key !== 'page')
+                .forEach(key => search.delete(key))
+        } else {
+            search.delete(key);
+        }
+        const to = `${pathname}?${search.toString()}`;
+        history.replace(to);
         window.scrollTo(0, 0);
     };
     return (
@@ -61,45 +102,61 @@ const ResultContent = ({ response }) => {
                     ))}
                 </Slick>
             </Stack>
-            {totalProduct > 0 && (
-                <>
-                    <Stack sx={{ position: 'relative' }}>
-                        <FilterWrapper direction='row' alignItems='center'>
-                            {FILTER_NAVS.map(nav => (
-                                <FilterText
-                                    key={nav.label}
-                                    className={nav.sort === filter.sort ? 'active' : ''}
-                                    onClick={() => handleFilter(nav.sort)}
-                                >
-                                    {nav.label}
-                                </FilterText>
-                            ))}
-                        </FilterWrapper>
-                        <Wrapper>
-                            {products && products.map(product => (
-                                <ProductCard key={product._id} product={product} />
-                            ))}
-
-                        </Wrapper>
+            <Stack sx={{ position: 'relative' }}>
+                <FilterWrapper direction='row' alignItems='center'>
+                    {FILTER_NAVS.map(nav => (
+                        <FilterText
+                            key={nav.label}
+                            className={nav.sort === filter.sort ? 'active' : ''}
+                            onClick={() => handleFilter(nav.sort)}
+                        >
+                            {nav.label}
+                        </FilterText>
+                    ))}
+                </FilterWrapper>
+                {chips.length !== 0 && (
+                    <Stack direction='row' alignItems='center' spacing={1} sx={{ m: 2 }}>
+                        {chips.map(chip => (
+                            <Chip
+                                key={chip.key}
+                                label={chip.label}
+                                color='error'
+                                size='small'
+                                onDelete={() => handleDeleteChip(chip.key)}
+                            />
+                        ))}
+                        <Typography
+                            variant='subtitle2'
+                            color='error'
+                            onClick={() => handleDeleteChip('all')}
+                            sx={{ cursor: 'pointer' }}
+                        >Remove all</Typography>
                     </Stack>
-                    <PaginationWrapper>
-                        <Pagination
-                            color='primary'
-                            page={parseInt(pagination.page)}
-                            count={pagination.totalPage}
-                            hidePrevButton={pagination.page <= 1}
-                            hideNextButton={pagination.page >= pagination.totalPage}
-                            onChange={handlePagination}
-                        />
-                    </PaginationWrapper>
-                </>
-            )}
-            {totalProduct <= 0 && (
-                <Stack alignItems='center' spacing={1} sx={{ width: '100%', py: 3 }}>
-                    <StarRateTwoTone color='warning' sx={{ fontSize: 'xxx-large' }} />
-                    <Typography variant='subtitle1'>No product found :D. Try something new.</Typography>
-                </Stack>
-            )}
+                )}
+                {totalProduct > 0 && (
+                    <Wrapper>
+                        {products && products.map(product => (
+                            <ProductCard key={product._id} product={product} />
+                        ))}
+                    </Wrapper>
+                )}
+                {totalProduct <= 0 && (
+                    <Stack alignItems='center' spacing={1} sx={{ width: '100%', py: 3 }}>
+                        <StarRateTwoTone color='warning' sx={{ fontSize: 'xxx-large' }} />
+                        <Typography variant='subtitle1'>No product found :D. Try something new.</Typography>
+                    </Stack>
+                )}
+            </Stack>
+            <PaginationWrapper>
+                <Pagination
+                    color='primary'
+                    page={parseInt(pagination.page)}
+                    count={pagination.totalPage}
+                    hidePrevButton={pagination.page <= 1}
+                    hideNextButton={pagination.page >= pagination.totalPage}
+                    onChange={handlePagination}
+                />
+            </PaginationWrapper>
         </RootStyle>
     );
 };
@@ -124,7 +181,7 @@ const Image = styled('img')({
 });
 
 const FilterWrapper = styled(Stack)(({ theme }) => ({
-    borderTop: `2px solid ${theme.palette.background.default}`,
+    borderTop: `2px solid ${theme.palette.background.default} `,
     position: 'sticky',
     top: HEADER_HEIGHT,
     zIndex: '99',

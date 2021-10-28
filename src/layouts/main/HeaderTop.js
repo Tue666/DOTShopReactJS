@@ -4,7 +4,7 @@ import { Link, Stack } from '@mui/material';
 
 import { PATH_AUTH } from '../../routes/path';
 import AccountPopover from './AccountPopover';
-import NotifycationPopover from './NotifycationPopover';
+// import NotifycationPopover from './NotifycationPopover';
 
 import useAuth from '../../hooks/useAuth';
 
@@ -18,18 +18,21 @@ const HeaderTop = () => {
                 sx={{ display: { xs: 'none', sm: 'none', md: 'flex', lg: 'flex' } }}
             >
                 <Stack direction='row' justifyContent='space-between'>
-                    <Label>
+                    <Linking component={RouterLink} to={{ pathname: 'https://www.facebook.com/exe.shiro' }} target='_blank'>
                         <i className="fas fa-mobile-alt"></i> Download app
-                    </Label>
+                    </Linking>
                     <Linking component={RouterLink} to={{ pathname: 'https://www.facebook.com/exe.shiro' }} target='_blank'>
                         <i className="fab fa-facebook"></i> Connect
                     </Linking>
                 </Stack>
                 <Stack direction='row' justifyContent='space-between'>
-                    <NotifycationPopover />
-                    <Label>
+                    {/* <NotifycationPopover /> */}
+                    <Linking component={RouterLink} to={{ pathname: 'https://www.facebook.com/exe.shiro' }} target='_blank'>
+                        <i className="fas fa-bell"></i> Notification
+                    </Linking>
+                    <Linking component={RouterLink} to={{ pathname: 'https://www.facebook.com/exe.shiro' }} target='_blank'>
                         <i className="fas fa-question-circle"></i> Support
-                    </Label>
+                    </Linking>
                     {isAuthenticated
                         ? <AccountPopover logout={logout} />
                         : (

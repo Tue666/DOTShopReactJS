@@ -37,7 +37,7 @@ const Categories = ({ id }) => {
                         <Grid item lg={2} sm={3} xs={6} key={category._id}>
                             <Link to={`/${category.slug}/cid${category._id}`}>
                                 <Category>
-                                    <Image src={category.image} alt={category.title} key={category._id} />
+                                    <Image data-src={category.image} alt={category.title} key={category._id} className='lazyload' />
                                     <Name title={category.title}>{category.title}</Name>
                                 </Category>
                             </Link>
