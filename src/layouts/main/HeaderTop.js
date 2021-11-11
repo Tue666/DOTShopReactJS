@@ -19,19 +19,19 @@ const HeaderTop = () => {
             >
                 <Stack direction='row' justifyContent='space-between'>
                     <Linking component={RouterLink} to={{ pathname: 'https://www.facebook.com/exe.shiro' }} target='_blank'>
-                        <i className="fas fa-mobile-alt"></i> Download app
+                        <i className="bi bi-file-arrow-down"></i> Download app
                     </Linking>
                     <Linking component={RouterLink} to={{ pathname: 'https://www.facebook.com/exe.shiro' }} target='_blank'>
-                        <i className="fab fa-facebook"></i> Connect
+                        <i className="bi bi-code-slash"></i> Connect
                     </Linking>
                 </Stack>
                 <Stack direction='row' justifyContent='space-between'>
                     {/* <NotifycationPopover /> */}
                     <Linking component={RouterLink} to={{ pathname: 'https://www.facebook.com/exe.shiro' }} target='_blank'>
-                        <i className="fas fa-bell"></i> Notification
+                        <i className="bi bi-bell"></i> Notification
                     </Linking>
                     <Linking component={RouterLink} to={{ pathname: 'https://www.facebook.com/exe.shiro' }} target='_blank'>
-                        <i className="fas fa-question-circle"></i> Support
+                        <i className="bi bi-question-circle"></i> Support
                     </Linking>
                     {isAuthenticated
                         ? <AccountPopover logout={logout} />
@@ -54,7 +54,7 @@ const HeaderTop = () => {
             <Label
                 sx={{ display: { xs: 'block', sm: 'block', md: 'none', lg: 'none' } }}
             >
-                <i className="fas fa-bars"></i>
+                <i className="bi bi-list"></i>
             </Label>
         </>
     );
@@ -66,15 +66,15 @@ const Linking = styled(Link)(({ theme }) => ({
     padding: '0px 10px',
     fontWeight: '500',
     transition: '0.3s',
-    fontSize: '14px',
+    fontSize: '13px',
     borderBottom: '1px solid transparent',
     '&:hover': {
-        color: '#f53d2d',
-        borderBottom: '1px solid #f53d2d'
+        color: theme.palette.error.main,
+        borderBottom: `1px solid ${theme.palette.error.main}`
     }
 }));
 
-const Label = styled('span')({
+const Label = styled('span')(({ theme }) => ({
     padding: '0px 10px',
     fontWeight: '500',
     transition: '0.3s',
@@ -82,9 +82,9 @@ const Label = styled('span')({
     cursor: 'pointer',
     borderBottom: '1px solid transparent',
     '&:hover': {
-        color: '#f53d2d',
-        borderBottom: '1px solid #f53d2d'
+        color: theme.palette.error.main,
+        borderBottom: `1px solid ${theme.palette.error.main}`
     }
-});
+}));
 
 export default HeaderTop;

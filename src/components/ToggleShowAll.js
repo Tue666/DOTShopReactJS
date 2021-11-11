@@ -10,7 +10,7 @@ const ToggleShowAll = ({ children }) => (
     <RootStyle style={{ position: 'relative' }}>
         <Input type="checkbox" id="toggle-input" />
         <ToggleButton htmlFor="toggle-input">
-            <i className="fas fa-chevron-down"></i>
+            <i className="bi bi-chevron-double-down"></i>
         </ToggleButton>
         {children}
     </RootStyle>
@@ -36,7 +36,11 @@ const ToggleButton = styled('label')({
     lineHeight: '40px',
     textAlign: 'center',
     fontSize: '17px',
-    zIndex: 9
+    zIndex: 9,
+    '&:hover': {
+        backgroundColor: '#f53d2d',
+        color: '#fff'
+    }
 });
 
 const Input = styled('input')({

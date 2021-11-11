@@ -9,7 +9,7 @@ const propTypes = {
 const SearchBar = ({ sx }) => (
     <Box sx={{ width: '53%', height: 40, position: 'relative', ...sx }}>
         <SearchField placeholder="Enter what are you looking for here ... <3" />
-        <SearchButton><i className="fas fa-search"></i></SearchButton>
+        <SearchButton><i className="bi bi-search"></i></SearchButton>
     </Box>
 );
 
@@ -24,7 +24,7 @@ const SearchField = styled('input')(({ theme }) => ({
     borderRadius: 20
 }));
 
-const SearchButton = styled('div')({
+const SearchButton = styled('div')(({ theme }) => ({
     position: 'absolute',
     top: 5,
     right: 5,
@@ -34,15 +34,16 @@ const SearchButton = styled('div')({
     outline: 'none',
     border: 'none',
     borderRadius: '50%',
-    backgroundColor: '#ff9187',
+    backgroundColor: theme.palette.error.light,
     color: '#fff',
     transition: '0.3s',
     cursor: 'pointer',
     textAlign: 'center',
     '&:hover': {
-        backgroundColor: '#f95b4c'
+        backgroundColor: theme.palette.error.main,
+        transform: 'scale(1.1)'
     }
-});
+}));
 
 SearchBar.propTypes = propTypes;
 

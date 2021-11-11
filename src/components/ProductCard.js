@@ -71,7 +71,7 @@ const ProductCard = ({ product }) => {
                             <Stars total={5} rating={average} sx={{ fontSize: '14px' }} />
                         )}
                         <Typography variant='caption'>
-                            {sold !== 0 && `Đã bán ${sold}`}
+                            {sold !== 0 && `${sold} Sold`}
                         </Typography>
                     </Stack>
                     {/* Product Price */}

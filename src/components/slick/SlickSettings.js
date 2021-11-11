@@ -27,7 +27,7 @@ const CustomeBannerArrow = ({ currentSlide, slideCount, side, children, ...props
     );
 };
 
-const SectionArrow = styled('button')(({ side }) => ({
+const SectionArrow = styled('button')(({ theme, side }) => ({
     width: '40px',
     height: '40px',
     borderRadius: '50%',
@@ -43,9 +43,9 @@ const SectionArrow = styled('button')(({ side }) => ({
     transition: '0.3s',
     cursor: 'pointer',
     '&:hover': {
-        backgroundColor: '#f53d2d',
+        backgroundColor: theme.palette.error.main,
         color: '#fff',
-        boxShadow: '0px 2px 5px #f95b4c'
+        boxShadow: `0px 2px 5px ${theme.palette.error.light}`
     }
 }));
 const CustomeSectionArrow = ({ currentSlide, slideCount, side, children, ...props }) => {
@@ -102,8 +102,8 @@ export const settingProductSection = {
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 2500,
-    prevArrow: <CustomeSectionArrow side='back'><i className="fas fa-chevron-left"></i></CustomeSectionArrow>,
-    nextArrow: <CustomeSectionArrow side='forward'><i className="fas fa-chevron-right"></i></CustomeSectionArrow>,
+    prevArrow: <CustomeSectionArrow side='back'><i className="bi bi-chevron-left"></i></CustomeSectionArrow>,
+    nextArrow: <CustomeSectionArrow side='forward'><i className="bi bi-chevron-right"></i></CustomeSectionArrow>,
     responsive: [
         {
             breakpoint: 1080,

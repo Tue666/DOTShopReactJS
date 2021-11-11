@@ -39,7 +39,7 @@ const MainFooter = () => (
                 <Typography variant='caption'>Payment Privacy Policy</Typography>
                 <Typography variant='caption'>Privacy policy of personal information</Typography>
                 <Typography variant='caption'>Complaint handling policy</Typography>
-                <Typography variant='caption'>terms of use</Typography>
+                <Typography variant='caption'>Terms of use</Typography>
             </Stack>
             <Stack sx={{ m: 2, width: '226px' }}>
                 <Stack>

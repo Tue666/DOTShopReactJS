@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Badge, IconButton } from '@mui/material';
-import { Favorite } from '@mui/icons-material';
+import { FavoriteBorderOutlined } from '@mui/icons-material';
 
 const FavoritePopover = () => (
     <Badge
@@ -13,8 +13,8 @@ const FavoritePopover = () => (
         sx={{ m: 1 }}
     >
         <Link to='/favorite'>
-            <IconButton sx={{ color: '#f76254' }}>
-                <Favorite />
+            <IconButton color='error'>
+                <FavoriteBorderOutlined />
             </IconButton>
         </Link>
     </Badge>

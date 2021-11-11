@@ -1,15 +1,17 @@
 const SECONDARY = {
-    main: '#e255fa',
     light: '#84A9FF',
+    main: '#e255fa',
     dark: '#FE4CF6',
-    contrastText: '#fff'
+    contrastText: '#FFF'
 };
 
 const ERROR = {
-    main: '#FB3333',
-    light: '#FFA48D',
-    dark: '#FF4842',
-    contrastText: '#fff'
+    lighter: '#FFA48D',
+    light: '#FF867B',
+    main: '#F53D2D',
+    dark: '#D35449',
+    darker: '#B72136',
+    contrastText: '#FFF'
 };
 
 const COMMON = {

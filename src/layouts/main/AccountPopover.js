@@ -56,7 +56,7 @@ const AccountPopover = ({ logout }) => {
                 onMouseLeave={popoverLeave}
             >
                 Welcome!, {user.name} &nbsp;
-                <i className="fas fa-caret-down"></i>
+                <i className="bi bi-caret-down"></i>
             </Label>
             <MainPopover
                 open={openedPopover}

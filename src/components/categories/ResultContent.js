@@ -149,7 +149,7 @@ const ResultContent = ({ response, queryObject }) => {
             </Stack>
             <PaginationWrapper>
                 <Pagination
-                    color='primary'
+                    color='error'
                     page={parseInt(pagination.page)}
                     count={pagination.totalPage}
                     hidePrevButton={pagination.page <= 1}

@@ -50,7 +50,7 @@ const ProductSection = ({ id, _id, type, title, sx }) => {
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <Title>{title}</Title>
                 <Link to='/auth' underline="hover">
-                    <Title>View more</Title>
+                    <Title sx={{ color: '#f53d2d' }}>View more</Title>
                 </Link>
             </Box>
             <Slick settings={settingProductSection}>
@@ -59,7 +59,7 @@ const ProductSection = ({ id, _id, type, title, sx }) => {
                 ))}
                 {!products && SkeletonLoad}
             </Slick>
-        </RootStyle>
+        </RootStyle >
     );
 };
 

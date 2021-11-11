@@ -13,8 +13,8 @@ const Title = ({ children, sx }) => (
 );
 
 const RootStyle = styled('span')({
-    fontSize: '17px',
-    fontWeight: 'bold',
+    fontSize: '16px',
+    fontWeight: '500',
     padding: '15px 20px'
 });
 

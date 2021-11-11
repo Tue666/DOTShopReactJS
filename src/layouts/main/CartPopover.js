@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Badge, IconButton } from '@mui/material';
-import { ShoppingCart } from '@mui/icons-material';
+import { ShoppingCartOutlined } from '@mui/icons-material';
 import { useSelector } from 'react-redux';
 
 const CartPopover = () => {
@@ -16,8 +16,8 @@ const CartPopover = () => {
             sx={{ m: 1 }}
         >
             <Link to='/cart'>
-                <IconButton sx={{ color: '#f76254' }}>
-                    <ShoppingCart />
+                <IconButton color='error'>
+                    <ShoppingCartOutlined />
                 </IconButton>
             </Link>
         </Badge>

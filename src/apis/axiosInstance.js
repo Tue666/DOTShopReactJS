@@ -26,10 +26,8 @@ axiosInstance.interceptors.response.use(
                 const newTokens = await axiosInstance.post('/accounts/refreshToken', {
                     refreshToken: tokens.refreshToken
                 });
-                console.log(newTokens);
                 setToken(newTokens);
                 originalRequest.headers['Authorization'] = `Bearer ${newTokens.accessToken}`;
-                console.log(originalRequest);
                 return axiosInstance(originalRequest);
             } catch (error) {
                 setToken(null);
