@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Container, Stack, Breadcrumbs, Typography, Button } from '@mui/material';
+import { Container, Stack, Breadcrumbs, Typography, Button, Alert, AlertTitle } from '@mui/material';
 import { useSelector } from 'react-redux';
 
 import Page from '../components/Page';
@@ -21,6 +21,14 @@ const Cart = () => {
                         Cart
                     </Typography>
                 </Breadcrumbs>
+
+                {/* Events start */}
+                <Alert severity="info">
+                    <AlertTitle>Promotional events</AlertTitle>
+                    Free shipping for orders from 50M <strong>(11/1/2021 - 12/31/2021)</strong>
+                </Alert>
+                {/* Events end */}
+
                 <Typography variant='h5' sx={{ mb: 2 }}>
                     Cart
                 </Typography>

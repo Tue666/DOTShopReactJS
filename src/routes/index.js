@@ -4,6 +4,7 @@ import { Switch, Route } from 'react-router-dom';
 import PrivateRoute from '../guards/PrivateRoute';
 import MainLayout from '../layouts/main';
 import AuthLayout from '../layouts/authentication';
+import CheckoutLayout from '../layouts/checkout';
 import Loading from '../pages/Loading';
 
 const Router = () => (
@@ -16,6 +17,14 @@ const Router = () => (
                         <Route path='/auth/register' exact component={Register} />
                     </Switch>
                 </AuthLayout>
+            </Route>
+            <Route path='/checkout/:slugCheckout' exact>
+                <CheckoutLayout>
+                    <Switch>
+                        <Route path='/checkout/shipping' exact component={Shipping} />
+                        <Route path='/checkout/payment' exact component={Payment} />
+                    </Switch>
+                </CheckoutLayout>
             </Route>
             <Route>
                 <MainLayout>
@@ -45,3 +54,7 @@ const NotFound = lazy(() => import('../pages/NotFound'));
 // Authentication
 const Login = lazy(() => import('../pages/authentication/Login'));
 const Register = lazy(() => import('../pages/authentication/Register'));
+
+// Checkout
+const Shipping = lazy(() => import('../pages/checkout/Shipping'));
+const Payment = lazy(() => import('../pages/checkout/Payment'));

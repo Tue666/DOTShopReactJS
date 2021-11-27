@@ -1,10 +1,13 @@
 import PropTypes from 'prop-types';
+import { useHistory, Link as RouterLink } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
-import { Stack, Typography } from '@mui/material';
+import { Stack, Typography, Link } from '@mui/material';
 
+import { PATH_CHECKOUT } from '../../routes/path';
 import { CART_WIDTH } from '../../constant';
 import { HEADER_HEIGHT } from '../../constant';
 import { toVND } from '../../utils/formatMoney';
+import useSnackbar from '../../hooks/useSnackbar';
 
 const propTypes = {
     user: PropTypes.object,
@@ -12,8 +15,10 @@ const propTypes = {
 };
 
 const TotalPrice = ({ user, cart }) => {
+    const { setSnackbar } = useSnackbar();
+    const history = useHistory();
     const { name, phone, address } = user;
-    const isChecked = cart.filter(item => item.checked).length;
+    const isChecked = cart.filter(item => item.checked).length !== 0;
     const totalPrice = cart.reduce((sum, item) => {
         if (item.checked) {
             return sum + (item.amount * (item.price - (item.price * item.discount / 100)));
@@ -27,21 +32,39 @@ const TotalPrice = ({ user, cart }) => {
         }
         return sum;
     }, 0);
-    const freeShip =  totalPrice >= 100000000 ? 50000 : totalPrice >= 50000000 ? 30000 : 0;
+    const freeShip = totalPrice >= 100000000 ? 50000 : totalPrice >= 50000000 ? 30000 : 0;
     const totalFreeShip = totalVAT - freeShip > 0 ? totalVAT - freeShip : 0;
+    const handleNavigateCheckout = () => {
+        if (!isChecked) {
+            setSnackbar({
+                isOpen: true,
+                type: null,
+                message: 'You haven\'t selected any products to buy yet'
+            });
+            return;
+        }
+        const isFilledInfor = Object.values(user).every(infor => infor !== '');
+        history.push(isFilledInfor ? PATH_CHECKOUT.payment : `${PATH_CHECKOUT.shipping}?isIntendingCart=1`);
+    };
     return (
         <RootStyle>
             <ContentInner>
                 <Wrapper>
                     <Stack direction='row' justifyContent='space-between' alignItems='center' sx={{ mb: '5px' }}>
                         <Typography variant='subtitle2'>Ship Address</Typography>
-                        <Link>Change</Link>
+                        <Linking component={RouterLink} to={`${PATH_CHECKOUT.shipping}?isIntendingCart=1`}>
+                            Change
+                        </Linking>
                     </Stack>
                     <Typography sx={{ fontSize: '15px', fontWeight: 'bold' }}>
-                        {name} | {phone ? phone : <Link>Add phone</Link>}
+                        {name} | {phone ? phone : <Linking component={RouterLink} to={`${PATH_CHECKOUT.shipping}?isIntendingCart=1`}>
+                            Add phone
+                        </Linking>}
                     </Typography>
                     <Typography variant='subtitle2'>
-                        {address ? address : <Link>Add address</Link>}
+                        {address ? address : <Linking component={RouterLink} to={`${PATH_CHECKOUT.shipping}?isIntendingCart=1`}>
+                            Add address
+                        </Linking>}
                     </Typography>
                 </Wrapper>
                 <Wrapper>
@@ -69,8 +92,8 @@ const TotalPrice = ({ user, cart }) => {
                         <Typography variant='subtitle2'>Total</Typography>
                         <Stack alignItems='end'>
                             <Typography variant='subtitle1' sx={{ fontWeight: 'bold', color: 'error.main' }}>
-                                {isChecked === 0 && 'Choose a product, please!'}
-                                {isChecked !== 0 && toVND(totalPrice - totalCoupon + totalFreeShip)}
+                                {!isChecked && 'Choose a product, please!'}
+                                {isChecked && toVND(totalPrice - totalCoupon + totalFreeShip)}
                             </Typography>
                             <Typography variant='caption'>
                                 (VAT includes)
@@ -78,7 +101,9 @@ const TotalPrice = ({ user, cart }) => {
                         </Stack>
                     </Stack>
                 </Wrapper>
-                <OrderButton>Check out ({cart.filter(item => item.checked).length})</OrderButton>
+                <OrderButton onClick={handleNavigateCheckout}>
+                    Check out ({cart.filter(item => item.checked).length})
+                </OrderButton>
             </ContentInner>
         </RootStyle>
     );
@@ -104,9 +129,11 @@ const Wrapper = styled('div')(({ theme }) => ({
     fontSize: '14px',
 }));
 
-const Link = styled('span')({
+const Linking = styled(Link)({
     color: 'rgb(26 139 237)',
-    cursor: 'pointer'
+    cursor: 'pointer',
+    textDecoration: 'none',
+    fontWeight: '500'
 });
 
 const OrderButton = styled('button')({
